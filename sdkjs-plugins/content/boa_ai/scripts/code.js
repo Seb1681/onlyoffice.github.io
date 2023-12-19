@@ -306,6 +306,7 @@
                 conversationHistory.push({ role: 'user', content: message });
                 messageInput.value = '';
                 typingIndicator.style.display = 'block'; // display the typing indicator
+                console.log(message, "message")
                 sseRequest(message)
                     .then(reader => {
                         console.log("SSE请求成功");
@@ -343,9 +344,9 @@
     }
 
 
-    function sseRequest(conversationHistory) {
+    function sseRequest(question) {
         return new Promise((resolve, reject) => {
-            console.log("history: ", conversationHistory);
+            console.log("question: ", question);
             fetch(
                 "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
                 {
@@ -353,7 +354,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({"question": conversationHistory})
+                    body: JSON.stringify({"question": question})
                 }
             )
             .then(response => response.json())

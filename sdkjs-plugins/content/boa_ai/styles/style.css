@@ -81,12 +81,6 @@
     word-wrap: break-word;
 }
 
-.typing-indicator {
-    display: none;
-    margin-top: 10px;
-    color: #888;
-}
-
 /* Media query for small screens */
 @media (max-width: 600px) {
     .chat-container {

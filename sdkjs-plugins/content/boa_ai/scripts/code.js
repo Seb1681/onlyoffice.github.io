@@ -147,8 +147,6 @@
 
         //  scroll to the bottom of the message history
         messageHistory.scrollTop = messageHistory.scrollHeight;
-
-        console.log("history: ", conversationHistory);
     };
 
 
@@ -310,14 +308,12 @@
                 sseRequest(message)
                     .then(result => {
                         console.log("SSE请求成功");
-                        let currentDiv = null;
-                        let currentMessage = null;
-                        displaySSEMessage(result, currentDiv, currentMessage);
+                        displayMessage(generateText(result), 'ai-message');
                     })
                     .catch(error => {
                         console.log("SSE请求失败", error);
-                    });
-                typingIndicator.style.display = 'none'; // hide the typing indicator
+                    })
+                    .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
             }
         }
 

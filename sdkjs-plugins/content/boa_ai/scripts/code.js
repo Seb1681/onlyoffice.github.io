@@ -45,12 +45,9 @@
 
     window.Asc.plugin.init = function () {
         lang = window.Asc.plugin.info.lang.substring(0, 2);
-        console.log("current lang: ", lang)
-        console.log("test translate: " + prompts[lang]['summarize']);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
         typingIndicator = document.querySelector('.typing-indicator');
-        checkApiKey();
     };
 
     window.Asc.plugin.button = function () {
@@ -349,34 +346,51 @@
     function sseRequest(conversationHistory) {
         return new Promise((resolve, reject) => {
             console.log("history: ", conversationHistory);
-            console.log("SSE请求开始");
-            const model = localStorage.getItem('model');
-            const url = `https://open.bigmodel.cn/api/paas/v3/model-api/${model}/sse-invoke`;
-
-            const headers = {
-                'Accept': 'text/event-stream',
-                'Content-Type': 'application/json',
-            };
-
-            const requestData = {
-                prompt: conversationHistory
-            };
-
-            fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(requestData)
-            })
-                .then(response => {
-                    const reader = response.body
-                        .pipeThrough(new TextDecoderStream())
-                        .getReader();
-                    resolve(reader);
-                })
-                .catch(err => {
-                    reject(err);
-                });
+            fetch(
+                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({"question": conversationHistory})
+                }
+            )
+            .then(response => response.json())
+            .then(result => resolve(result))
+            .catch(error => reject(error));
         });
+
+        // return new Promise((resolve, reject) => {
+        //     console.log("history: ", conversationHistory);
+        //     console.log("SSE请求开始");
+        //     const model = localStorage.getItem('model');
+        //     const url = `https://open.bigmodel.cn/api/paas/v3/model-api/${model}/sse-invoke`;
+
+        //     const headers = {
+        //         'Accept': 'text/event-stream',
+        //         'Content-Type': 'application/json',
+        //     };
+
+        //     const requestData = {
+        //         prompt: conversationHistory
+        //     };
+
+        //     fetch(url, {
+        //         method: 'POST',
+        //         headers: headers,
+        //         body: JSON.stringify(requestData)
+        //     })
+        //         .then(response => {
+        //             const reader = response.body
+        //                 .pipeThrough(new TextDecoderStream())
+        //                 .getReader();
+        //             resolve(reader);
+        //         })
+        //         .catch(err => {
+        //             reject(err);
+        //         });
+        // });
     }
 
     function displaySSEMessage(reader, currentDiv, currentMessage) {

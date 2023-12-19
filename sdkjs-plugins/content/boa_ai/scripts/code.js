@@ -306,7 +306,7 @@
                 conversationHistory.push({ role: 'user', content: message });
                 messageInput.value = '';
                 typingIndicator.style.display = 'block'; // display the typing indicator
-                sseRequest(conversationHistory)
+                sseRequest(message)
                     .then(reader => {
                         console.log("SSE请求成功");
                         let currentDiv = null;

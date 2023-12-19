@@ -157,11 +157,11 @@
         window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
             conversationHistory.push({ role: 'user', content: prompts[lang]['summarize'] + text });
             sseRequest(conversationHistory)
-                .then(reader => {
+                .then(result => {
                     console.log("SSE请求成功");
                     let currentDiv = null;
                     let currentMessage = null;
-                    displaySSEMessage(reader, currentDiv, currentMessage);
+                    displaySSEMessage(result, currentDiv, currentMessage);
                 })
                 .catch(error => {
                     console.log("SSE请求失败", error);
@@ -174,11 +174,11 @@
         window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
             conversationHistory.push({ role: 'user', content: prompts[lang]['explain'] + text });
             sseRequest(conversationHistory)
-                .then(reader => {
+                .then(result => {
                     console.log("SSE请求成功");
                     let currentDiv = null;
                     let currentMessage = null;
-                    displaySSEMessage(reader, currentDiv, currentMessage);
+                    displaySSEMessage(result, currentDiv, currentMessage);
                 })
                 .catch(error => {
                     console.log("SSE请求失败", error);
@@ -190,11 +190,11 @@
     const translateHelper = function (text, targetLanguage) {
         conversationHistory.push({ role: 'user', content: `翻译为${targetLanguage}: ` + text });
         sseRequest(conversationHistory)
-            .then(reader => {
+            .then(result => {
                 console.log("SSE请求成功");
                 let currentDiv = null;
                 let currentMessage = null;
-                displaySSEMessage(reader, currentDiv, currentMessage);
+                displaySSEMessage(result, currentDiv, currentMessage);
             })
             .catch(error => {
                 console.log("SSE请求失败", error);
@@ -251,9 +251,9 @@
             typingIndicator.style.display = 'block'; // display the typing indicator
             let currentMessage = '';
             sseRequest(prompt)
-                .then(reader => {
+                .then(result => {
                     console.log("SSE请求成功");
-                    Asc.scope.reader = reader;
+                    Asc.scope.reader = result;
 
                     reader.read().then(function processText({ done, value }) {
                         if (done) {
@@ -308,11 +308,11 @@
                 typingIndicator.style.display = 'block'; // display the typing indicator
                 console.log(message, "message")
                 sseRequest(message)
-                    .then(reader => {
+                    .then(result => {
                         console.log("SSE请求成功");
                         let currentDiv = null;
                         let currentMessage = null;
-                        displaySSEMessage(reader, currentDiv, currentMessage);
+                        displaySSEMessage(result, currentDiv, currentMessage);
                     })
                     .catch(error => {
                         console.log("SSE请求失败", error);
@@ -343,10 +343,8 @@
         messageInput.value = '';
     }
 
-
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
-            console.log("question: ", question);
             fetch(
                 "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
                 {
@@ -361,71 +359,38 @@
             .then(result => resolve(result))
             .catch(error => reject(error));
         });
-
-        // return new Promise((resolve, reject) => {
-        //     console.log("history: ", conversationHistory);
-        //     console.log("SSE请求开始");
-        //     const model = localStorage.getItem('model');
-        //     const url = `https://open.bigmodel.cn/api/paas/v3/model-api/${model}/sse-invoke`;
-
-        //     const headers = {
-        //         'Accept': 'text/event-stream',
-        //         'Content-Type': 'application/json',
-        //     };
-
-        //     const requestData = {
-        //         prompt: conversationHistory
-        //     };
-
-        //     fetch(url, {
-        //         method: 'POST',
-        //         headers: headers,
-        //         body: JSON.stringify(requestData)
-        //     })
-        //         .then(response => {
-        //             const reader = response.body
-        //                 .pipeThrough(new TextDecoderStream())
-        //                 .getReader();
-        //             resolve(reader);
-        //         })
-        //         .catch(err => {
-        //             reject(err);
-        //         });
-        // });
     }
 
-    function displaySSEMessage(reader, currentDiv, currentMessage) {
-        reader.read().then(function processResult(result) {
-            // console.log("stream result: ", result);
-            if (result.value.includes('event:end') || result.value.includes('event:error') || result.value.includes('event:interrupt') || result.value.includes('event:finish')) {
-                // console.log("result.value of stream", result.value);
-                conversationHistory.push({ role: 'assistant', content: currentMessage });
-                return;
-            }
-            if (currentDiv === null) {
-                currentDiv = document.createElement('div');
-                currentDiv.classList.add('ai-message');
-                messageHistory.appendChild(currentDiv);
-            }
-            if (currentMessage === null) {
-                currentMessage = '';
-            }
-            const lines = result.value.split('\n');
-            lines.forEach(line => {
-                if (line.includes('data')) {
-                    const fragment = line.split(':')[1];
-                    currentMessage += fragment;
-                    if (fragment === '') {
-                        currentDiv.appendChild(document.createElement('br'));
-                    } else {
-                        currentDiv.appendChild(document.createTextNode(fragment));
-                    }
+    function displaySSEMessage(result, currentDiv, currentMessage) {
+        // console.log("stream result: ", result);
+        if (result.value.includes('event:end') || result.value.includes('event:error') || result.value.includes('event:interrupt') || result.value.includes('event:finish')) {
+            // console.log("result.value of stream", result.value);
+            conversationHistory.push({ role: 'assistant', content: currentMessage });
+            return;
+        }
+        if (currentDiv === null) {
+            currentDiv = document.createElement('div');
+            currentDiv.classList.add('ai-message');
+            messageHistory.appendChild(currentDiv);
+        }
+        if (currentMessage === null) {
+            currentMessage = '';
+        }
+        const lines = result.value.split('\n');
+        lines.forEach(line => {
+            if (line.includes('data')) {
+                const fragment = line.split(':')[1];
+                currentMessage += fragment;
+                if (fragment === '') {
+                    currentDiv.appendChild(document.createElement('br'));
+                } else {
+                    currentDiv.appendChild(document.createTextNode(fragment));
                 }
-            });
-
-            // recursively call processResult() to continue reading data from the stream
-            displaySSEMessage(reader, currentDiv, currentMessage);
+            }
         });
+
+        // recursively call processResult() to continue reading data from the stream
+        displaySSEMessage(result, currentDiv, currentMessage);
     }
 
 

@@ -308,7 +308,7 @@
                 sseRequest(message)
                     .then(result => {
                         console.log("SSE请求成功");
-                        displayMessage(generateText(result), 'ai-message');
+                        displayMessage(result, 'ai-message');
                     })
                     .catch(error => {
                         console.log("SSE请求失败", error);

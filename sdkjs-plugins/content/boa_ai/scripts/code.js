@@ -363,7 +363,7 @@
 
     function displaySSEMessage(result, currentDiv, currentMessage) {
         // console.log("stream result: ", result);
-        if (result.value.includes('event:end') || result.value.includes('event:error') || result.value.includes('event:interrupt') || result.value.includes('event:finish')) {
+        if (result) {
             // console.log("result.value of stream", result.value);
             conversationHistory.push({ role: 'assistant', content: currentMessage });
             return;

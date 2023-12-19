@@ -37,24 +37,11 @@
 
 
     let ApiKey = '';
-    let hasKey = false;
     let messageHistory = null; // a reference to the message history DOM element
     let conversationHistory = null; // a list of all the messages in the conversation
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
-
-    function checkApiKey() {
-        ApiKey = localStorage.getItem('apikey');
-        if (ApiKey) {
-            hasKey = true;
-        } else {
-            hasKey = false;
-            displayMessage(generateText('Set Your ZhiPu API Key first'), 'ai-message');
-            console.log("Set Your ZhiPu API Key first > translated", generateText('Set Your ZhiPu API Key first'))
-        }
-    };
-
 
     window.Asc.plugin.init = function () {
         lang = window.Asc.plugin.info.lang.substring(0, 2);
@@ -75,51 +62,51 @@
             guid: window.Asc.plugin.guid,
             items: [
                 {
-                    id: 'ZhiPu Copilot',
-                    text: generateText('ZhiPu Copilot'),
+                    id: 'BOA AI',
+                    text: generateText('BOA AI'),
                     items: [
                         {
                             id: 'generate',
                             text: generateText('generate'),
                         },
-                        {
-                            id: 'summarize',
-                            text: generateText('summarize'),
-                        },
-                        {
-                            id: 'explain',
-                            text: generateText('explain'),
-                        },
-                        {
-                            id: 'translate',
-                            text: generateText('translate'),
-                            items: [
-                                {
-                                    id: 'translate_to_en',
-                                    text: generateText('translate to English'),
-                                },
-                                {
-                                    id: 'translate_to_zh',
-                                    text: generateText('translate to Chinese'),
-                                },
-                                {
-                                    id: 'translate_to_fr',
-                                    text: generateText('translate to French'),
-                                },
-                                {
-                                    id: 'translate_to_de',
-                                    text: generateText('translate to German'),
-                                },
-                                {
-                                    id: 'translate_to_ru',
-                                    text: generateText('translate to Russian'),
-                                },
-                                {
-                                    id: 'translate_to_es',
-                                    text: generateText('translate to Spanish'),
-                                }
-                            ]
-                        },
+                        // {
+                        //     id: 'summarize',
+                        //     text: generateText('summarize'),
+                        // },
+                        // {
+                        //     id: 'explain',
+                        //     text: generateText('explain'),
+                        // },
+                        // {
+                        //     id: 'translate',
+                        //     text: generateText('translate'),
+                        //     items: [
+                        //         {
+                        //             id: 'translate_to_en',
+                        //             text: generateText('translate to English'),
+                        //         },
+                        //         {
+                        //             id: 'translate_to_zh',
+                        //             text: generateText('translate to Chinese'),
+                        //         },
+                        //         {
+                        //             id: 'translate_to_fr',
+                        //             text: generateText('translate to French'),
+                        //         },
+                        //         {
+                        //             id: 'translate_to_de',
+                        //             text: generateText('translate to German'),
+                        //         },
+                        //         {
+                        //             id: 'translate_to_ru',
+                        //             text: generateText('translate to Russian'),
+                        //         },
+                        //         {
+                        //             id: 'translate_to_es',
+                        //             text: generateText('translate to Spanish'),
+                        //         }
+                        //     ]
+                        // },
                         {
                             id: 'clear_history',
                             text: generateText('clear chat history'),
@@ -307,23 +294,6 @@
             console.log("hide typing indicator")
     });
 
-    // generate async request (for in-doc function)
-    let generateResponse = function () {
-        return new Promise(function (resolve, reject) {
-            let prompt = {
-                "prompt": conversationHistory
-            }
-            window.Asc.sendRequest(prompt)
-                .then(function (res) {
-                    console.log("获得回复：", res);
-                    resolve(res);
-                })
-                .catch(function (error) {
-                    reject(error);
-                });
-        });
-    }
-
     // Make sure the DOM is fully loaded before querying the DOM elements
     document.addEventListener("DOMContentLoaded", function () {
         // get references to the DOM elements
@@ -338,23 +308,18 @@
                 displayMessage(message, 'user-message');
                 conversationHistory.push({ role: 'user', content: message });
                 messageInput.value = '';
-                if (hasKey) {
-                    typingIndicator.style.display = 'block'; // display the typing indicator
-                    sseRequest(conversationHistory)
-                        .then(reader => {
-                            console.log("SSE请求成功");
-                            let currentDiv = null;
-                            let currentMessage = null;
-                            displaySSEMessage(reader, currentDiv, currentMessage);
-                        })
-                        .catch(error => {
-                            console.log("SSE请求失败", error);
-                        });
-                    typingIndicator.style.display = 'none'; // hide the typing indicator
-                } else {
-                    displayMessage('Set Your ZhiPu API Key first', 'ai-message');
-                    conversationHistory.push({ role: 'assistant', content: 'Set Your ZhiPu API Key first' });
-                }
+                typingIndicator.style.display = 'block'; // display the typing indicator
+                sseRequest(conversationHistory)
+                    .then(reader => {
+                        console.log("SSE请求成功");
+                        let currentDiv = null;
+                        let currentMessage = null;
+                        displaySSEMessage(reader, currentDiv, currentMessage);
+                    })
+                    .catch(error => {
+                        console.log("SSE请求失败", error);
+                    });
+                typingIndicator.style.display = 'none'; // hide the typing indicator
             }
         }
 
@@ -384,7 +349,6 @@
     function sseRequest(conversationHistory) {
         return new Promise((resolve, reject) => {
             console.log("history: ", conversationHistory);
-            const jwt = window.Asc.JWT;
             console.log("SSE请求开始");
             const model = localStorage.getItem('model');
             const url = `https://open.bigmodel.cn/api/paas/v3/model-api/${model}/sse-invoke`;
@@ -392,7 +356,6 @@
             const headers = {
                 'Accept': 'text/event-stream',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + jwt
             };
 
             const requestData = {

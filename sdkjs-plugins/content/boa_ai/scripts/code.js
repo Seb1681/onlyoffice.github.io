@@ -246,11 +246,6 @@
 
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
-        window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
-            console.log("GetFileHTML")
-            console.log (res)
-        });
-
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             let prompt = (`Please generate the content of the following prompt. ${text}. Please reply with the documentation formatted content.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
@@ -259,6 +254,7 @@
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
+                        console.log(oDocument, "oDocument");
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);

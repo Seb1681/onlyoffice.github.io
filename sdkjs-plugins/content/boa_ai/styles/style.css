@@ -10,7 +10,7 @@
 }
 
 .message-history {
-    height: 80vh;
+    height: 70vh;
     overflow-y: scroll;
     border: 1px solid #e1c3c3;
     padding: 5px;
@@ -60,7 +60,6 @@
 }
 
 .user-message {
-    align-self: flex-end;
     background-color: #007BFF;
     color: #fff;
     padding: 10px;
@@ -70,8 +69,12 @@
     word-wrap: break-word;
 }
 
+.user-message-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .ai-message {
-    align-self: flex-start;
     background-color: #d2e1f4;
     color: black;
     padding: 10px;
@@ -79,6 +82,10 @@
     border-radius: 10px;
     max-width: 80%;
     word-wrap: break-word;
+}
+
+.ai-message-container {
+    display: flex;
 }
 
 /* Media query for small screens */

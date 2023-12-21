@@ -134,7 +134,7 @@
 
         // create a new message element
         const messageElement = document.createElement('div');
-        messageElement.classList.add(messageType); // Add a class for user messages
+        messageElement.classList.add(messageType); // Add div class
 
         // split the message into lines and create a text node for each line
         const lines = message.split('\n');
@@ -144,8 +144,11 @@
             messageElement.appendChild(document.createElement('br'));
         }
 
+        const containerElement = document.createElement('div');
+        containerElement.classList.add(messageType + '-container'); // Add div class
+        containerElement.appendChild(messageElement);
         // add the message element to the message history
-        messageHistory.appendChild(messageElement);
+        messageHistory.appendChild(containerElement);
 
         //  scroll to the bottom of the message history
         messageHistory.scrollTop = messageHistory.scrollHeight;

@@ -41,8 +41,7 @@
     let typingIndicator = null;
     let lang = '';
 
-    window.Asc.plugin.init = function (text) {
-        console.log(text,'init')
+    window.Asc.plugin.init = function () {
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
@@ -248,12 +247,14 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please generate the content of the following prompt. ${text}. Please reply with the documentation formatted content.`);
+            let prompt = (`Please generate the content of the following prompt. ${text}. Please reply with the documentation formatted content only.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
+                        var sName = Api.GetFullName();
+                        console.log(sName);
                         let oDocument = Api.GetDocument();
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);
@@ -270,7 +271,7 @@
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please rephrase this sentence. ${text}. Please reply with the documentation formatted content`);
+            let prompt = (`Please rephrase this sentence. ${text}. Please reply with the documentation formatted content only`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {

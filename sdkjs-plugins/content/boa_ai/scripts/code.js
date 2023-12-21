@@ -35,8 +35,6 @@
         }
     }
 
-
-    let ApiKey = '';
     let messageHistory = null; // a reference to the message history DOM element
     let conversationHistory = null; // a list of all the messages in the conversation
     let messageInput = null;
@@ -244,49 +242,46 @@
 
     // generate content in document using sse
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            let prompt = ({ role: 'user', content: prompts[lang]['generate'] + text });
+        window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            let prompt = (text);
             typingIndicator.style.display = 'block'; // display the typing indicator
-            let currentMessage = '';
+            // let currentMessage = '';
             sseRequest(prompt)
                 .then(result => {
-                    console.log("SSE请求成功");
-                    Asc.scope.reader = result;
-
-                    reader.read().then(function processText({ done, value }) {
-                        if (done) {
-                            console.log("stream done");
-                            return;
-                        }
-                        let lines = value.split('\n');
-                        lines.forEach(line => {
-                            if (line.includes('data')) {
-                                const fragment = line.split(':')[1];
-                                currentMessage += fragment;
-                                if (fragment.length === 0 ) {
-                                    console.log("currentMessage2: ", currentMessage)
-                                    Asc.scope.p = currentMessage;
-                                    Asc.plugin.callCommand(function () {
-                                        let oDocument = Api.GetDocument();
-                                        let oParagraph = Api.CreateParagraph();
-                                        oParagraph.AddText(Asc.scope.p);
-                                        oDocument.InsertContent([oParagraph]);
-                                    })
-                                    currentMessage = '';
-                                }
-                            }
-                        });
+                    // Asc.scope.result = result;
+                    // reader.read().then(function processText({ done, value }) {
+                    //     if (done) {
+                    //         console.log("stream done");
+                    //         return;
+                    //     }
+                    //     let lines = value.split('\n');
+                        // lines.forEach(line => {
+                        //     if (line.includes('data')) {
+                        //         const fragment = line.split(':')[1];
+                        //         currentMessage += fragment;
+                        //         if (fragment.length === 0 ) {
+                        //             console.log("currentMessage2: ", currentMessage)
+                    Asc.scope.p = result;
+                    Asc.plugin.callCommand(function () {
+                        let oDocument = Api.GetDocument();
+                        let oParagraph = Api.CreateParagraph();
+                        oParagraph.AddText(Asc.scope.p);
+                        oDocument.InsertContent([oParagraph]);
+                    })
+                    currentMessage = '';
+                        //         }
+                        //     }
+                        // });
 
                         // recursively call processResult() to continue reading data from the stream
-                        reader.read().then(processText);
-                    });
+                        // reader.read().then(processText);
+                    // });
                 })
                 .catch(error => {
                     console.log("SSE请求失败", error);
-                });
+                })
+                // .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
             });
-            typingIndicator.style.display = 'none'; // hide the typing indicator
-            console.log("hide typing indicator")
     });
 
     // Make sure the DOM is fully loaded before querying the DOM elements
@@ -348,7 +343,10 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({"question": question})
+                    body: JSON.stringify(
+                        {"question": question},
+                        {"metadata": ""}
+                    )
                 }
             )
             .then(response => response.json())

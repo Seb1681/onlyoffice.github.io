@@ -62,7 +62,11 @@
                     items: [
                         {
                             id: 'generate',
-                            text: generateText('generate'),
+                            text: generateText('Generate'),
+                        },
+                        {
+                            id: 'rephrase',
+                            text: generateText('Rephrase'),
                         },
                         // {
                         //     id: 'summarize',
@@ -240,27 +244,18 @@
         });
     });
 
-    // generate content in document using sse
+    // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
+        window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
+            console.log("GetFileHTML")
+            console.log (res)
+        });
+
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (text);
+            let prompt = (`Please generate the content of the following prompt. ${text}. Please reply with the documentation formatted content.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
-            // let currentMessage = '';
             sseRequest(prompt)
                 .then(result => {
-                    // Asc.scope.result = result;
-                    // reader.read().then(function processText({ done, value }) {
-                    //     if (done) {
-                    //         console.log("stream done");
-                    //         return;
-                    //     }
-                    //     let lines = value.split('\n');
-                        // lines.forEach(line => {
-                        //     if (line.includes('data')) {
-                        //         const fragment = line.split(':')[1];
-                        //         currentMessage += fragment;
-                        //         if (fragment.length === 0 ) {
-                        //             console.log("currentMessage2: ", currentMessage)
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
@@ -268,22 +263,35 @@
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
                     })
-                    currentMessage = '';
-                        //         }
-                        //     }
-                        // });
-
-                        // recursively call processResult() to continue reading data from the stream
-                        // reader.read().then(processText);
-                    // });
                 })
                 .catch(error => {
-                    console.log("SSE请求失败", error);
+                    console.error(error);
                 })
-                // .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
+                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
             });
     });
 
+    // rephrase content in document
+    window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
+        window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            let prompt = (`Please rephrase this sentence. ${text}. Please reply with the documentation formatted content`);
+            typingIndicator.style.display = 'block'; // display the typing indicator
+            sseRequest(prompt)
+                .then(result => {
+                    Asc.scope.p = result;
+                    Asc.plugin.callCommand(function () {
+                        let oDocument = Api.GetDocument();
+                        let oParagraph = Api.CreateParagraph();
+                        oParagraph.AddText(Asc.scope.p);
+                        oDocument.InsertContent([oParagraph]);
+                    })
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
+            });
+    });
     // Make sure the DOM is fully loaded before querying the DOM elements
     document.addEventListener("DOMContentLoaded", function () {
         // get references to the DOM elements

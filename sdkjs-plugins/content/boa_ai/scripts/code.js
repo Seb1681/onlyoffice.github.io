@@ -41,7 +41,8 @@
     let typingIndicator = null;
     let lang = '';
 
-    window.Asc.plugin.init = function () {
+    window.Asc.plugin.init = function (text) {
+        console.log(text,'init')
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
@@ -254,7 +255,6 @@
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
-                        console.log(oDocument, "oDocument");
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);

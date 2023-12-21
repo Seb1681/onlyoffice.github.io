@@ -71,8 +71,8 @@
             "isVisual": true,
             "isModal": true,
             "isInsideMode": true,
-            "initDataType": "none",
-            "initData": "",
+            "initDataType": "text",
+            "initData": "JohnDoe",
             "isUpdateOleOnResize": true,
             "buttons": [],
             "events": [

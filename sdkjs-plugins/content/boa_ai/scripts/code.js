@@ -42,6 +42,10 @@
     let lang = '';
 
     window.Asc.plugin.init = function () {
+        window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
+            console.log ('HTML')
+            console.log (res)
+        });
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
@@ -108,7 +112,7 @@
                         // },
                         {
                             id: 'clear_history',
-                            text: generateText('clear chat history'),
+                            text: generateText('Clear chat history'),
                         }
                     ]
                 }

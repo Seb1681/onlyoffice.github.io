@@ -257,12 +257,13 @@
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         var sName = Api.GetFullName();
-                        console.log(Api, "Api");
-                        console.log(sName);
                         let oDocument = Api.GetDocument();
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
+                        console.log(Api, "Api");
+                        console.log(oDocument, "oDocument");
+                        console.log(sName);
                     })
                 })
                 .catch(error => {

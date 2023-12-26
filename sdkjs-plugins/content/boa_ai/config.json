@@ -9,45 +9,8 @@
             "description": "A copilot plugin for OnlyOffice Document based on BOA AI.",
             "url": "index.html",
             "icons": [
-                "resources/light/icon.png",
-                "resources/light/icon@2x.png"
-            ],
-            "icons2": [
                 {
-                    "style": "light",
-                    "100%": {
-                        "normal": "resources/light/icon.png"
-                    },
-                    "125%": {
-                        "normal": "resources/light/icon@1.25x.png"
-                    },
-                    "150%": {
-                        "normal": "resources/light/icon@1.5x.png"
-                    },
-                    "175%": {
-                        "normal": "resources/light/icon@1.75x.png"
-                    },
-                    "200%": {
-                        "normal": "resources/light/icon@2x.png"
-                    }
-                },
-                {
-                    "style": "dark",
-                    "100%": {
-                        "normal": "resources/dark/icon.png"
-                    },
-                    "125%": {
-                        "normal": "resources/dark/icon@1.25x.png"
-                    },
-                    "150%": {
-                        "normal": "resources/dark/icon@1.5x.png"
-                    },
-                    "175%": {
-                        "normal": "resources/dark/icon@1.75x.png"
-                    },
-                    "200%": {
-                        "normal": "resources/dark/icon@2x.png"
-                    }
+                    "100%": { "normal": "resources/light/favicon.ico"}
                 }
             ],
             "store": {
@@ -55,10 +18,11 @@
                     "light": "#7c84e8",
                     "dark": "#5f55af"
                 },
-                "icons": {
-                    "light": "resources/store/icons",
-                    "dark": "resources/store/icons"
-                },
+                "icons": [
+                    {
+                        "100%": { "normal": "resources/light/favicon.ico"}
+                    }
+                ],
                 "categories": [
                     "specAbilities",
                     "work"

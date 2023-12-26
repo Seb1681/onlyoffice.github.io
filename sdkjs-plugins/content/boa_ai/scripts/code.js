@@ -252,6 +252,25 @@
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
+
+            // Get the current URL
+            let currentURL = window.location.href;
+
+            // Get the search parameters from the current URL
+            const queryString = window.location.search;
+
+            // Create a URLSearchParams object based on the query string
+            const urlParams = new URLSearchParams(queryString);
+
+            // Get the value of the 'id' parameter
+            const idValue = urlParams.get('id');
+
+            // Display the current URL in the console
+            console.log("Current URL:", currentURL);
+            
+            // Display the value of 'id' parameter
+            console.log("Value of 'id' parameter:", idValue);
+
             typingIndicator.style.display = 'block'; // display the typing indicator
             typingIndicator.innerHTML = 'Generating...';
             sseRequest(prompt)

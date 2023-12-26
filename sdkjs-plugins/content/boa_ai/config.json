@@ -35,8 +35,8 @@
             "isVisual": true,
             "isModal": true,
             "isInsideMode": true,
-            "initDataType": "none",
-            "initData": "",
+            "initData": "testing123",
+            "initDataType": "text",
             "isUpdateOleOnResize": true,
             "buttons": [],
             "events": [

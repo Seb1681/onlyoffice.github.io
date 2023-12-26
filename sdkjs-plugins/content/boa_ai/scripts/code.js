@@ -41,7 +41,8 @@
     let typingIndicator = null;
     let lang = '';
 
-    window.Asc.plugin.init = function () {
+    window.Asc.plugin.init = function (test) {
+        console.log(test, "test");
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];

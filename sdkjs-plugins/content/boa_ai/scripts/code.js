@@ -44,8 +44,12 @@
 
     window.Asc.plugin.init = function () {
         window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
+            console.log ("HTML")
             console.log (res)
-            rsdId = res;
+        });
+        window.Asc.plugin.executeMethod ("GetFields", null, function (res) {
+            console.log ("fields")
+            console.log (res)
         });
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');

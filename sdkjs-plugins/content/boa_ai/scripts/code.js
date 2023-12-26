@@ -40,8 +40,13 @@
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
+    let rsdId = '';
 
     window.Asc.plugin.init = function () {
+        window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
+            console.log (res)
+            rsdId = res;
+        });
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
@@ -250,11 +255,6 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            const rsdId = localStorage.getItem('rsdId');
-            console.log(rsdId);
-            localStorage.setItem('rsdId', 'Testing123');
-            rsdId = localStorage.getItem('rsdId');
-            console.log(rsdId);
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             typingIndicator.innerHTML = 'Generating...';

@@ -40,9 +40,12 @@
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
-    let rsdId = '';
 
     window.Asc.plugin.init = function () {
+        const rsdid = document.getElementById('RsdId')
+        const temp = document.getElementById('file-menu-panel')
+        console.log(rsdid, 'rsdid');
+        console.log(temp, 'temp');
         window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
             console.log ("HTML")
             console.log (res)

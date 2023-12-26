@@ -161,13 +161,13 @@
             conversationHistory.push({ role: 'user', content: prompts[lang]['summarize'] + text });
             sseRequest(conversationHistory)
                 .then(result => {
-                    console.log("SSE请求成功");
+                    console.log("success");
                     let currentDiv = null;
                     let currentMessage = null;
                     displaySSEMessage(result, currentDiv, currentMessage);
                 })
                 .catch(error => {
-                    console.log("SSE请求失败", error);
+                console.log("error", error);
                 });
         });
     });
@@ -178,13 +178,13 @@
             conversationHistory.push({ role: 'user', content: prompts[lang]['explain'] + text });
             sseRequest(conversationHistory)
                 .then(result => {
-                    console.log("SSE请求成功");
+                    console.log("success");
                     let currentDiv = null;
                     let currentMessage = null;
                     displaySSEMessage(result, currentDiv, currentMessage);
                 })
                 .catch(error => {
-                    console.log("SSE请求失败", error);
+                console.log("error", error);
                 });
             typingIndicator.style.display = 'none'; // hide the typing indicator
         });
@@ -194,13 +194,13 @@
         conversationHistory.push({ role: 'user', content: `翻译为${targetLanguage}: ` + text });
         sseRequest(conversationHistory)
             .then(result => {
-                console.log("SSE请求成功");
+                console.log("success");
                 let currentDiv = null;
                 let currentMessage = null;
                 displaySSEMessage(result, currentDiv, currentMessage);
             })
             .catch(error => {
-                console.log("SSE请求失败", error);
+                console.log("error", error);
             });
         typingIndicator.style.display = 'none'; // hide the typing indicator
     }
@@ -261,9 +261,9 @@
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
-                        console.log(Api, "Api");
-                        console.log(oDocument, "oDocument");
-                        console.log(sName);
+                        // console.log(Api, "Api");
+                        // console.log(oDocument, "oDocument");
+                        // console.log(sName);
                     })
                 })
                 .catch(error => {
@@ -311,11 +311,11 @@
                 typingIndicator.style.display = 'block'; // display the typing indicator
                 sseRequest(message)
                     .then(result => {
-                        console.log("SSE请求成功");
+                        console.log("success");
                         displayMessage(result, 'ai-message');
                     })
                     .catch(error => {
-                        console.log("SSE请求失败", error);
+                        console.log("error", error);
                     })
                     .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
             }

@@ -250,7 +250,7 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please generate the content of the following prompt. ${text}. Please reply with the documentation formatted content only.`);
+            let prompt = (`Please generate the content of the following prompt. ${text}. For this reply, please reply with the documentation formatted content only.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
@@ -276,7 +276,7 @@
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please rephrase this sentence. ${text}. Please reply with the documentation formatted content only`);
+            let prompt = (`Please rephrase this sentence. ${text}. For this reply, please reply with the documentation formatted content only`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
@@ -309,7 +309,6 @@
                 conversationHistory.push({ role: 'user', content: message });
                 messageInput.value = '';
                 typingIndicator.style.display = 'block'; // display the typing indicator
-                console.log(message, "message")
                 sseRequest(message)
                     .then(result => {
                         console.log("SSE请求成功");

@@ -36,7 +36,7 @@
             "isModal": true,
             "isInsideMode": true,
             "initData": "testing123",
-            "initDataType": "text",
+            "initDataType": "ole",
             "isUpdateOleOnResize": true,
             "buttons": [],
             "events": [

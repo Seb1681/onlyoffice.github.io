@@ -42,23 +42,25 @@
     let lang = '';
 
     window.Asc.plugin.init = function () {
-        const rsdid = document.getElementById('RsdId')
-        const temp = document.getElementById('file-menu-panel')
-        console.log(rsdid, 'rsdid');
-        console.log(temp, 'temp');
-        window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
-            console.log ("HTML")
-            console.log (res)
-        });
-        window.Asc.plugin.executeMethod ("GetFields", null, function (res) {
-            console.log ("fields")
-            console.log (res)
-        });
+        var _info = window.Asc.plugin.info;
+        console.log(_info, "_info");
+        // const rsdid = document.getElementById('RsdId')
+        // const temp = document.getElementById('file-menu-panel')
+        // console.log(rsdid, 'rsdid');
+        // console.log(temp, 'temp');
+        // window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
+        //     console.log ("HTML")
+        //     console.log (res)
+        // });
+        // window.Asc.plugin.executeMethod ("GetFields", null, function (res) {
+        //     console.log ("fields")
+        //     console.log (res)
+        // });
 
-        window.Asc.plugin.executeMethod ("GetInstalledPlugins", null, function (result) {
-            postMessage (JSON.stringify ({type: 'InstalledPlugins', data: result }));
-            console.log(result);
-        });
+        // window.Asc.plugin.executeMethod ("GetInstalledPlugins", null, function (result) {
+        //     postMessage (JSON.stringify ({type: 'InstalledPlugins', data: result }));
+        //     console.log(result);
+        // });
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');

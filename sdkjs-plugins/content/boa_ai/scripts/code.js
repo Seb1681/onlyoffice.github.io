@@ -54,6 +54,12 @@
             console.log ("fields")
             console.log (res)
         });
+
+        window.Asc.plugin.executeMethod ("GetInstalledPlugins", null, function (result) {
+            postMessage (JSON.stringify ({type: 'InstalledPlugins', data: result }));
+            console.log(result);
+        });
+
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];

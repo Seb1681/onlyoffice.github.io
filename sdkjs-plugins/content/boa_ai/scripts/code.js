@@ -44,9 +44,11 @@
 
     window.Asc.plugin.init = function () {
         try {
+            console.log(window, "window");
             console.log(window.parent, "parent");
+            console.log(window.parent.parent, "parent.parent");
             console.log(window.AccessToken, "window.AccessToken");
-            console.log(window.parent.AccessToken, "window.AccessToken");
+            console.log(window.parent.parent.AccessToken, "window.AccessToken");
             const test = window.parent.document.getElementById("testTxt").value;
             console.log(test);
         } catch (error) {

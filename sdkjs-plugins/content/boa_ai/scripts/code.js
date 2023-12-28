@@ -44,14 +44,15 @@
 
     window.Asc.plugin.init = function () {
         try {
-            window.addEventListener('message', event => {
-                // IMPORTANT: check the origin of the data!
-                // if (event.origin === 'https://your-first-site.example') {
-                    // The data was sent from your site.
-                    // Data sent with postMessage is stored in event.data:
-                    console.log(event.data);
-                // }
-            });
+            window.parent.parent.postMessage('RequestTokenInitialization', '*');
+            // window.addEventListener('message', event => {
+            //     // IMPORTANT: check the origin of the data!
+            //     // if (event.origin === 'https://your-first-site.example') {
+            //         // The data was sent from your site.
+            //         // Data sent with postMessage is stored in event.data:
+            //         console.log(event.data);
+            //     // }
+            // });
         } catch (error) {
             console.error(error);
         }

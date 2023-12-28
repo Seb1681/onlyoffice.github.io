@@ -44,7 +44,7 @@
 
     window.Asc.plugin.init = function () {
         try {
-            window.parent.parent.postMessage('RequestTokenInitialization', '*');
+            window.parent.postMessage('RequestTokenInitialization', '*');
             // window.addEventListener('message', event => {
             //     // IMPORTANT: check the origin of the data!
             //     // if (event.origin === 'https://your-first-site.example') {

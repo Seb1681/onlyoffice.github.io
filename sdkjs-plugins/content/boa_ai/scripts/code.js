@@ -44,19 +44,14 @@
 
     window.Asc.plugin.init = function () {
         try {
-            console.log(window, "window");
-            console.log(window.parent, "parent");
-            console.log(window.parent.parent, "parent.parent");
-            // console.log(window.AccessToken, "window.AccessToken");
-            // console.log(window.parent.parent.AccessToken, "window.AccessToken");
-            const doc = window.document;
-            console.log(doc);
-            
-            const test2 = window.document.getElementById("testTxt").value;
-            console.log(test2);
-
-            const test = window.parent.document.getElementById("testTxt").value;
-            console.log(test);
+            window.addEventListener('message', event => {
+                // IMPORTANT: check the origin of the data!
+                // if (event.origin === 'https://your-first-site.example') {
+                    // The data was sent from your site.
+                    // Data sent with postMessage is stored in event.data:
+                    console.log(event.data);
+                // }
+            });
         } catch (error) {
             console.error(error);
         }

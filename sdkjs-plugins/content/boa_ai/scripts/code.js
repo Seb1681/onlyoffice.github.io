@@ -49,6 +49,9 @@
             console.log(window.parent.parent, "parent.parent");
             // console.log(window.AccessToken, "window.AccessToken");
             // console.log(window.parent.parent.AccessToken, "window.AccessToken");
+            const doc = window.document;
+            console.log(doc);
+            
             const test2 = window.document.getElementById("testTxt").value;
             console.log(test2);
 

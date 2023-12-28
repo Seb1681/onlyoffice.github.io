@@ -43,6 +43,10 @@
     let documentId = '';
 
     window.Asc.plugin.init = function () {
+        console.log(window.AccessToken, "window.AccessToken");
+        console.log(window.parent.AccessToken, "window.AccessToken");
+        console.log(window.parent, "parent");
+        window.parent.document.getElementById("testTxt").value;
         documentId = window.Asc.plugin.info.documentId;
         console.log(documentId);
         // console.log(_info, "_info");

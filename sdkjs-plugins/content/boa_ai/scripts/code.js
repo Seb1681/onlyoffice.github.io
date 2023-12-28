@@ -49,10 +49,11 @@
             console.log(window.parent.parent, "parent.parent");
             // console.log(window.AccessToken, "window.AccessToken");
             // console.log(window.parent.parent.AccessToken, "window.AccessToken");
-            const test = window.parent.document.getElementById("testTxt").value;
             const test2 = window.document.getElementById("testTxt").value;
-            console.log(test);
             console.log(test2);
+
+            const test = window.parent.document.getElementById("testTxt").value;
+            console.log(test);
         } catch (error) {
             console.error(error);
         }

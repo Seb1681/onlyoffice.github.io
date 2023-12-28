@@ -43,10 +43,16 @@
     let documentId = '';
 
     window.Asc.plugin.init = function () {
-        console.log(window.AccessToken, "window.AccessToken");
-        console.log(window.parent.AccessToken, "window.AccessToken");
-        console.log(window.parent, "parent");
-        window.parent.document.getElementById("testTxt").value;
+        try {
+            console.log(window.AccessToken, "window.AccessToken");
+            console.log(window.parent.AccessToken, "window.AccessToken");
+            console.log(window.parent, "parent");
+            const test = window.parent.document.getElementById("testTxt").value;
+            console.log(test);
+        } catch (error) {
+            console.error(error);
+        }
+
         documentId = window.Asc.plugin.info.documentId;
         console.log(documentId);
         // console.log(_info, "_info");

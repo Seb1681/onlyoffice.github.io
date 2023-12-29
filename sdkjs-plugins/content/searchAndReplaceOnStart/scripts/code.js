@@ -28,35 +28,38 @@
 	
 	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
+		window.parent.parent.postMessage('OverwriteContent', '*');
+		const overwriteContent = (event) => {
+			console.log('Message from search and replace: ' + event.data);
+			const msg = event.data;
+			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
+				if (msg.content) {
+					Asc.plugin.callCommand(function () {
+						var oDocument = Api.GetDocument();
+						oDocument.RemoveAllElements();
+						var oParagraph = Api.CreateParagraph();
+						oParagraph.AddText(msg.content);
+						oDocument.AddElement(0, oParagraph);
+					})
+				}
+				return true;
+			}
+			return false;
+		}
 		window.addEventListener('message', event => {
 			// IMPORTANT: check the origin of the data!
 			// if (event.origin === 'https://your-first-site.example') {
 				// The data was sent from your site.
 				// Data sent with postMessage is stored in event.data:
-				console.log('Message from search and replace: ' + event.data);
 			// }
-		});
-		// //event document is ready
-		// //all events are specified in the config file in the "events" field
-		// var oProperties = {
-		// 	"searchString"  : "ONLYOFFICE",
-		// 	"replaceString" : "ONLYOFFICE is cool",
-		// 	"matchCase"     : false
-		// };
-		// //method for search and replace in documents
-		// window.Asc.plugin.executeMethod("SearchAndReplace", [oProperties], function() {
-        //     window.Asc.plugin.executeCommand("close", "");
-        // });
 
-		Asc.plugin.callCommand(function () {
-			var oDocument = Api.GetDocument();
-			oDocument.RemoveAllElements();
-			var oParagraph = Api.CreateParagraph();
-			oParagraph.AddText("This is the first paragraph. ");
-			oParagraph.AddText("We removed all document elements (including the first paragraph, created by default). ");
-			oParagraph.AddText("This paragraph now took its place.");
-			oDocument.AddElement(0, oParagraph);
-		})
+			// Remove event listener after executing 1 time;
+			if (overwriteContent(event)) {
+				window.removeEventListener('message', event => {
+					overwriteContent(event);
+				});
+			}
+		});
 	};
 
 })(window, undefined);

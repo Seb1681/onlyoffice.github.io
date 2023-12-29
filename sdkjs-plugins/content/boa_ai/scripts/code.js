@@ -40,21 +40,25 @@
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
+    let token = '';
+    let rsdId = '';
 
     window.Asc.plugin.init = function () {
-        try {
-            window.parent.parent.postMessage('RequestTokenInitialization', '*');
-            window.addEventListener('message', event => {
-                // IMPORTANT: check the origin of the data!
-                // if (event.origin === 'https://your-first-site.example') {
-                    // The data was sent from your site.
-                    // Data sent with postMessage is stored in event.data:
-                    console.log(event.data);
-                // }
-            });
-        } catch (error) {
-            console.error(error);
-        }
+        window.parent.parent.postMessage('RequestTokenInitialization', '*');
+        window.addEventListener('message', event => {
+            console.log('Message from BOA AI: ' + event.data);
+			const msg = event.data;
+			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {
+                token= msg.token;
+                rsdId = msg.rsdId;
+			}
+			// IMPORTANT: check the origin of the data!
+			// if (event.origin === 'https://your-first-site.example') {
+				// The data was sent from your site.
+				// Data sent with postMessage is stored in event.data:
+			// }
+        });
+
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
@@ -263,6 +267,8 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            console.log(token, "token");
+            console.log(rsdId, "rsdId");
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
             typingIndicator.style.display = 'block'; // display the typing indicator
             typingIndicator.innerHTML = 'Generating...';

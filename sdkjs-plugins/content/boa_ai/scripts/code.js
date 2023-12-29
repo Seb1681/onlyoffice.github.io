@@ -380,7 +380,9 @@
             //     }
             // )
             fetch(
-                "https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt",
+                "http://localhost:44302/api/ai/rsd/ai-prompt",
+                // "https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt",
+                
                 {
                     method: "POST",
                     headers: {

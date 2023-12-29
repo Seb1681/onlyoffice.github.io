@@ -270,7 +270,7 @@
                 .then(result => {
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
-                        var sName = Api.GetFullName();
+                        // var sName = Api.GetFullName();
                         let oDocument = Api.GetDocument();
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(Asc.scope.p);

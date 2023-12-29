@@ -30,9 +30,9 @@
 	{
 		window.parent.parent.postMessage('OverwriteContent', '*');
 		const overwriteContent = (event) => {
-			console.log('Message from search and replace: ' + event.data);
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
+				console.log('Message from search and replace: ' + msg);
 				if (msg.content) {
 					Asc.plugin.callCommand(function () {
 						var oDocument = Api.GetDocument();

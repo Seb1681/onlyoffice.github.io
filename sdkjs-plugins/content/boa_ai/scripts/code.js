@@ -46,9 +46,9 @@
     window.Asc.plugin.init = function () {
         window.parent.parent.postMessage('GetAiMetaData', '*');
         window.addEventListener('message', event => {
-            console.log('Message from BOA AI: ' + event.data);
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {
+                console.log('Message from BOA AI: ' + msg);
                 token= msg.token;
                 rsdId = msg.rsdId;
 			}
@@ -267,11 +267,10 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            console.log(token, "token");
-            console.log(rsdId, "rsdId");
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
-            typingIndicator.style.display = 'block'; // display the typing indicator
             typingIndicator.innerHTML = 'Generating...';
+            typingIndicator.style.display = 'block'; // display the typing indicator
+            console.log('generate prompt :', prompt);
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = result;
@@ -390,7 +389,7 @@
                     },
                     body: JSON.stringify(
                         {"RsdId": rsdId},
-                        {"Question": question}
+                        {"Question": question || ""}
                     )
                 }
             )

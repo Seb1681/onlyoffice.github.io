@@ -279,7 +279,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(
-                        {"question": question},
+                        {"question": prompt},
                         {"metadata": ""}
                     )
                 }

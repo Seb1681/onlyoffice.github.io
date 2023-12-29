@@ -16,43 +16,29 @@
  *
  */
 (function(window, undefined){
-
+    
     window.Asc.plugin.init = function()
     {
-		// none
     };
 
     window.Asc.plugin.button = function(id)
     {
+		this.executeCommand("close", "");
     };
-
-    window.Asc.plugin.onExternalPluginMessage = function(data)
+	
+	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
-		switch (data.type)
-		{
-			case "close":
-			{
-				this.executeCommand("close", "");
-				break;
-			}
-			case "insertText":
-			{
-				Asc.scope.text = data.text; // export variable to plugin scope
-				this.callCommand(function() {
-					var oDocument = Api.GetDocument();
-					var oParagraph = Api.CreateParagraph();
-					oParagraph.AddText(Asc.scope.text);
-					oDocument.InsertContent([oParagraph]);
-				}, false);
-				
-				break;
-			}
-			case "executeCommand": {
-				this.info.recalculate = true;
-				this.executeCommand("command", data.text);
-				break;
-			}
-		}
+		//event document is ready
+		//all events are specified in the config file in the "events" field
+		var oProperties = {
+			"searchString"  : "ONLYOFFICE",
+			"replaceString" : "ONLYOFFICE is cool",
+			"matchCase"     : false
+		};
+		//method for search and replace in documents
+		window.Asc.plugin.executeMethod("SearchAndReplace", [oProperties], function() {
+            window.Asc.plugin.executeCommand("close", "");
+        });
 	};
 
 })(window, undefined);

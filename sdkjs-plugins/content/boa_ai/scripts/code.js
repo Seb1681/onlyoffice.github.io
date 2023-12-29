@@ -40,40 +40,21 @@
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
-    let documentId = '';
 
     window.Asc.plugin.init = function () {
         try {
-            window.parent.postMessage('RequestTokenInitialization', '*');
-            // window.addEventListener('message', event => {
-            //     // IMPORTANT: check the origin of the data!
-            //     // if (event.origin === 'https://your-first-site.example') {
-            //         // The data was sent from your site.
-            //         // Data sent with postMessage is stored in event.data:
-            //         console.log(event.data);
-            //     // }
-            // });
+            window.parent.parent.postMessage('RequestTokenInitialization', '*');
+            window.addEventListener('message', event => {
+                // IMPORTANT: check the origin of the data!
+                // if (event.origin === 'https://your-first-site.example') {
+                    // The data was sent from your site.
+                    // Data sent with postMessage is stored in event.data:
+                    console.log(event.data);
+                // }
+            });
         } catch (error) {
             console.error(error);
         }
-
-        documentId = window.Asc.plugin.info.documentId;
-        console.log(documentId);
-        // console.log(_info, "_info");
-        // window.Asc.plugin.executeMethod ("GetFileHTML", null, function (res) {
-        //     console.log ("HTML")
-        //     console.log (res)
-        // });
-        // window.Asc.plugin.executeMethod ("GetFields", null, function (res) {
-        //     console.log ("fields")
-        //     console.log (res)
-        // });
-
-        // window.Asc.plugin.executeMethod ("GetInstalledPlugins", null, function (result) {
-        //     postMessage (JSON.stringify ({type: 'InstalledPlugins', data: result }));
-        //     console.log(result);
-        // });
-
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];

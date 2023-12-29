@@ -379,24 +379,18 @@
             //         )
             //     }
             // )
-            fetch(
-                "http://localhost:44302/api/ai/rsd/ai-prompt",
-                // "https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt",
-                
-                {
-                    method: "POST",
-                    headers: {
-                        // "Content-Type": "application/json",
-                        "Authorization": "Bearer " + token
-                    },
-                    body: JSON.stringify(
-                        {
-                            "RsdId": rsdId,
-                            "Question": question
-                        },
-                    )
-                }
-            )
+            
+            fetch("https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    "RsdId": rsdId,
+                    "Question": question
+                })
+            })
             .then(response => response.json().response)
             .then(result => resolve(result))
             .catch(error => reject(error));

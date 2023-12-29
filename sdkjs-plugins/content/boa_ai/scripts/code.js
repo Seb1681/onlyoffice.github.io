@@ -48,7 +48,8 @@
         window.addEventListener('message', event => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {
-                console.log('BOA AI Received: ' + msg);
+                console.log('BOA AI Received');
+                console.log(msg)
                 token= msg.token;
                 rsdId = msg.rsdId;
 			}
@@ -384,12 +385,12 @@
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        // "Content-Type": "application/json",
                         "Authorization": "Bearer " + token
                     },
                     body: JSON.stringify(
                         {"RsdId": rsdId},
-                        {"Question": question || ""}
+                        {"Question": question || " "}
                     )
                 }
             )

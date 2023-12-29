@@ -32,7 +32,7 @@
 		const overwriteContent = (event) => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-				console.log('Message from search and replace: ' + msg);
+				console.log('Overwrite Received: ' + msg);
 				if (msg.content) {
 					Asc.plugin.callCommand(function () {
 						var oDocument = Api.GetDocument();

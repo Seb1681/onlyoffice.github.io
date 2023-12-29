@@ -48,7 +48,7 @@
         window.addEventListener('message', event => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {
-                console.log('Message from BOA AI: ' + msg);
+                console.log('BOA AI Received: ' + msg);
                 token= msg.token;
                 rsdId = msg.rsdId;
 			}
@@ -270,7 +270,6 @@
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
             typingIndicator.innerHTML = 'Generating...';
             typingIndicator.style.display = 'block'; // display the typing indicator
-            console.log('generate prompt :', prompt);
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = result;
@@ -379,6 +378,7 @@
             //         )
             //     }
             // )
+            console.log(question, 'question');
             fetch(
                 "https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt",
                 {
@@ -393,7 +393,7 @@
                     )
                 }
             )
-            .then(response => response.json().Response)
+            .then(response => response.json().response)
             .then(result => resolve(result))
             .catch(error => reject(error));
         });

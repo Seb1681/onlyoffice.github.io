@@ -44,7 +44,7 @@
     let rsdId = '';
 
     window.Asc.plugin.init = function () {
-        window.parent.parent.postMessage('RequestTokenInitialization', '*');
+        window.parent.parent.postMessage('GetAiMetaData', '*');
         window.addEventListener('message', event => {
             console.log('Message from BOA AI: ' + event.data);
 			const msg = event.data;

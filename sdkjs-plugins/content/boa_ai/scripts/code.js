@@ -379,7 +379,6 @@
             //         )
             //     }
             // )
-            console.log(question, 'question');
             fetch(
                 "https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt",
                 {
@@ -389,8 +388,10 @@
                         "Authorization": "Bearer " + token
                     },
                     body: JSON.stringify(
-                        {"RsdId": rsdId},
-                        {"Question": question}
+                        {
+                            "RsdId": rsdId,
+                            "Question": question
+                        },
                     )
                 }
             )

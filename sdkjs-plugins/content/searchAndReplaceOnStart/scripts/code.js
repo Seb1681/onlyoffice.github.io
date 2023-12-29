@@ -38,8 +38,9 @@
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
 						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(msg.content);
+						oParagraph.AddText("msg.content");
 						oDocument.AddElement(0, oParagraph);
+						console.log(msg, 'msg')
 					})
 				}
 				return true;

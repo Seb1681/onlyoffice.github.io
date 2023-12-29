@@ -390,7 +390,7 @@
                     },
                     body: JSON.stringify(
                         {"RsdId": rsdId},
-                        {"Question": question || " "}
+                        {"Question": question}
                     )
                 }
             )

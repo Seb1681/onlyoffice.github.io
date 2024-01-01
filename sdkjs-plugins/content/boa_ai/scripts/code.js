@@ -378,38 +378,46 @@
         messageInput.value = '';
     }
 
-    // fetch(
-    //     "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(
-    //             {"question": question},
-    //             {"metadata": ""}
-    //         )
-    //     }
-    // )
-
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
-            fetch("https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                    "Cookie": "INGRESSCOOKIE=fa67db442bf86d1c67a2b1c5b5dec6be|f22943aae6fdeef03b5428981d483513"
-                },
-                body: JSON.stringify({
-                    "RsdId": rsdId,
-                    "Question": question
-                })
-            })
-            .then(response => response.json().response)
+
+            fetch(
+                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            "question": question,
+                            "overrideConfig": {
+                                "supabaseMetadataFiler": rsdId,
+                                "memoryKey": rsdId,
+                                "inputKey": rsdId,
+                            }
+                        }
+                    )
+                }
+            )
+
+            // fetch("https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": "Bearer " + token,
+            //         "Cookie": "INGRESSCOOKIE=fa67db442bf86d1c67a2b1c5b5dec6be|f22943aae6fdeef03b5428981d483513"
+            //     },
+            //     body: JSON.stringify({
+            //         "RsdId": rsdId,
+            //         "Question": question
+            //     })
+            // })
+            .then(response => response.json())
             .then(result => resolve(result))
             .catch(error => reject(error));
         });
+
     }
 
     function displaySSEMessage(result, currentDiv, currentMessage) {

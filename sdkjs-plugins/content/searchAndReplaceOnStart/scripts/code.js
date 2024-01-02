@@ -29,40 +29,36 @@
 	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
 		window.parent.parent.postMessage('OverwriteContent', '*');
-		const overwriteContent = (event) => {
-			const msg = event.data;
-			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-				console.log('Overwrite Received: ');
-				if (msg.content) {
-					this.msgContent = msg.content;
-					Asc.plugin.callCommand(() => {
-						console.log(msg);
-						console.log(this.msgContent)
-						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
-						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText("msg.content");
-						oDocument.AddElement(0, oParagraph);
-					})
-				}
-				return true;
+		// const msg = event.data;
+		const msg = 'testing 123'
+		if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
+			console.log('Overwrite Received: ');
+			if (msg.content) {
+				this.msgContent = msg.content;
+				Asc.plugin.callCommand(() => {
+					console.log(this.msgContent)
+					var oDocument = Api.GetDocument();
+					oDocument.RemoveAllElements();
+					var oParagraph = Api.CreateParagraph();
+					oParagraph.AddText("msg.content");
+					oDocument.AddElement(0, oParagraph);
+				})
 			}
-			return false;
 		}
-		window.addEventListener('message', event => {
-			// IMPORTANT: check the origin of the data!
-			// if (event.origin === 'https://your-first-site.example') {
-				// The data was sent from your site.
-				// Data sent with postMessage is stored in event.data:
-			// }
+		// window.addEventListener('message', event => {
+		// 	// IMPORTANT: check the origin of the data!
+		// 	// if (event.origin === 'https://your-first-site.example') {
+		// 		// The data was sent from your site.
+		// 		// Data sent with postMessage is stored in event.data:
+		// 	// }
 
-			// Remove event listener after executing 1 time;
-			if (overwriteContent(event)) {
-				window.removeEventListener('message', event => {
-					overwriteContent(event);
-				});
-			}
-		});
+		// 	// Remove event listener after executing 1 time;
+		// 	if (overwriteContent(event)) {
+		// 		window.removeEventListener('message', event => {
+		// 			overwriteContent(event);
+		// 		});
+		// 	}
+		// });
 	};
 
 		// window.Asc.plugin.event_onDocumentContentReady = function()

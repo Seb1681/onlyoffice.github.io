@@ -33,15 +33,15 @@
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
 				console.log('Overwrite Received: ');
-				console.log(msg);
 				if (msg.content) {
-					Asc.plugin.callCommand(function (msg) {
+					Asc.plugin.callCommand((msg) => {
+						console.log(msg);
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
 						var oParagraph = Api.CreateParagraph();
 						oParagraph.AddText(msg.content);
 						oDocument.AddElement(0, oParagraph);
-					}, msg)
+					})
 				}
 				return true;
 			}

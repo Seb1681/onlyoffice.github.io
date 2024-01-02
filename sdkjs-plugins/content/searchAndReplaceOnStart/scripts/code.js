@@ -17,6 +17,8 @@
  */
 (function(window, undefined){
     
+    let msgContent = 'sample 20';
+
     window.Asc.plugin.init = function()
     {
     };
@@ -37,7 +39,9 @@
 			if (msg.content) {
 				this.msgContent = msg.content;
 				Asc.plugin.callCommand(() => {
-					console.log(this.msgContent)
+					console.log(msgContent, 'msgContent');
+					console.log(this.msgContent, 'this msg.content');
+					console.log(msg.content, 'msg.content')
 					var oDocument = Api.GetDocument();
 					oDocument.RemoveAllElements();
 					var oParagraph = Api.CreateParagraph();

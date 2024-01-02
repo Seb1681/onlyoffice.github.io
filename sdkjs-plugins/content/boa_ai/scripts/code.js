@@ -379,7 +379,7 @@
                     {
                         "question": question,
                         "overrideConfig": {
-                            "supabaseMetadataFiler": {
+                            "supabaseMetadataFilter": {
                                 "supabaseExistingIndex_0": {
                                     "rsdId": rsdId,
                                     "docType": "originalMaterial"

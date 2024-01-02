@@ -34,7 +34,7 @@
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
 				console.log('Overwrite Received: ');
 				if (msg.content) {
-					Asc.plugin.callCommand((msg) => {
+					Asc.plugin.callCommand(() => {
 						console.log(msg);
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();

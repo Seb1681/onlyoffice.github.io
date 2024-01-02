@@ -30,7 +30,8 @@
 	{
 		window.parent.parent.postMessage('OverwriteContent', '*');
 		// const msg = event.data;
-		const msg = 'testing 123'
+		const msg = {content: 'testing 123'};
+		console.log('document ready: overwrite');
 		if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
 			console.log('Overwrite Received: ');
 			if (msg.content) {

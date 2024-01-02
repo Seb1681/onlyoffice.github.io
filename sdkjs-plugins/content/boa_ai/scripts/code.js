@@ -271,20 +271,6 @@
             let prompt = (`Please generate the content for: "${text}". For this reply, please reply with the documentation formatted content only.`);
             typingIndicator.innerHTML = 'Generating...';
             typingIndicator.style.display = 'block'; // display the typing indicator
-            fetch(
-                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(
-                        {"question": prompt},
-                        {"metadata": ""}
-                    )
-                }
-            ).then(response => console.log(response));
-
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = result;

@@ -32,16 +32,16 @@
 		const overwriteContent = (event) => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-				console.log('Overwrite Received: ' + msg);
+				console.log('Overwrite Received: ');
+				console.log(msg);
 				if (msg.content) {
-					Asc.plugin.callCommand(function () {
+					Asc.plugin.callCommand(function (msg) {
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
 						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText("msg.content");
+						oParagraph.AddText(msg.content);
 						oDocument.AddElement(0, oParagraph);
-						console.log(msg, 'msg')
-					})
+					}, msg)
 				}
 				return true;
 			}

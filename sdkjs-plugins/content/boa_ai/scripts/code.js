@@ -383,8 +383,8 @@
                                     "docType": "originalMaterial"
                                 }
                             },
-                            "memoryKey":  {"bufferMemory_0": rsdId},
-                            "inputKey":  {"bufferMemory_0": rsdId},
+                            "memoryKey": {"bufferMemory_0": rsdId},
+                            "inputKey": {"bufferMemory_0": rsdId},
                         }
                     })
                 }

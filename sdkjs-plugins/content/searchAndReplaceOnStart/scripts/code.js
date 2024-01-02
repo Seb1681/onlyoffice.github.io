@@ -35,13 +35,13 @@
 		if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
 			console.log('Overwrite Received: ');
 			if (msg.content) {
-				console.log(msg.content);
+				Asc.scope.msgContent = msg.content;
 				this.callCommand(() => {
 					console.log('msg.content')
 					var oDocument = Api.GetDocument();
 					oDocument.RemoveAllElements();
 					var oParagraph = Api.CreateParagraph();
-					oParagraph.AddText("msg.content");
+					oParagraph.AddText(Asc.scope.msgContent);
 					oDocument.AddElement(0, oParagraph);
 				})
 			}

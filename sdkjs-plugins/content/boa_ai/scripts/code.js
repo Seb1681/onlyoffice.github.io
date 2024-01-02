@@ -381,7 +381,7 @@
                                 "supabaseMetadataFiler": {
                                     "supabaseExistingIndex_0": {
                                         "rsdId": rsdId,
-                                        "docType": originalMaterial
+                                        "docType": "originalMaterial"
                                     }
                                 },
                                 "memoryKey":  {"bufferMemory_0": rsdId},

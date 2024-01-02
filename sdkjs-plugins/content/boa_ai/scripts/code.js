@@ -371,24 +371,24 @@
                 "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
                 {
                     method: "POST",
-                    headers: {
+                    headers: 
+                    {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(
-                        {
-                            "question": question,
-                            "overrideConfig": {
-                                "supabaseMetadataFiler": {
-                                    "supabaseExistingIndex_0": {
-                                        "rsdId": rsdId,
-                                        "docType": "originalMaterial"
-                                    }
-                                },
-                                "memoryKey":  {"bufferMemory_0": rsdId},
-                                "inputKey":  {"bufferMemory_0": rsdId},
-                            }
+                    body:
+                    {
+                        "question": question,
+                        "overrideConfig": {
+                            "supabaseMetadataFiler": {
+                                "supabaseExistingIndex_0": {
+                                    "rsdId": rsdId,
+                                    "docType": "originalMaterial"
+                                }
+                            },
+                            "memoryKey":  {"bufferMemory_0": rsdId},
+                            "inputKey":  {"bufferMemory_0": rsdId},
                         }
-                    )
+                    }
                 }
             )
 

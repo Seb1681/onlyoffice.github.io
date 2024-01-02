@@ -34,19 +34,21 @@
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
 				console.log('Overwrite Received: ');
 				if (msg.content) {
-					Asc.plugin.callCommand(() => {
-						console.log(msg);
-						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
-						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(msg.content);
-						oDocument.AddElement(0, oParagraph);
-					})
+					Asc.plugin.callCommand(writeContent(msg.content))
 				}
 				return true;
 			}
 			return false;
 		}
+
+		const writeContent = (content) => {
+			var oDocument = Api.GetDocument();
+			oDocument.RemoveAllElements();
+			var oParagraph = Api.CreateParagraph();
+			oParagraph.AddText(content);
+			oDocument.AddElement(0, oParagraph);
+		}
+
 		window.addEventListener('message', event => {
 			// IMPORTANT: check the origin of the data!
 			// if (event.origin === 'https://your-first-site.example') {

@@ -378,7 +378,12 @@
                         {
                             "question": question,
                             "overrideConfig": {
-                                "supabaseMetadataFiler": {"supabaseExistingIndex_0": rsdId},
+                                "supabaseMetadataFiler": {
+                                    "supabaseExistingIndex_0": {
+                                        "rsdId": rsdId,
+                                        "docType": originalMaterial
+                                    }
+                                },
                                 "memoryKey":  {"bufferMemory_0": rsdId},
                                 "inputKey":  {"bufferMemory_0": rsdId},
                             }

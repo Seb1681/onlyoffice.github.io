@@ -29,74 +29,39 @@
 	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
 		window.parent.parent.postMessage('OverwriteContent', '*');
-		// const msg = event.data;
-		const msg = {action: 'overwriteContent', content: 'testing 123'};
-		console.log('document ready: overwrite');
-		if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-			console.log('Overwrite Received: ');
-			if (msg.content) {
-				Asc.scope.msgContent = msg.content;
-				this.callCommand(() => {
-					console.log('msg.content')
-					var oDocument = Api.GetDocument();
-					oDocument.RemoveAllElements();
-					var oParagraph = Api.CreateParagraph();
-					oParagraph.AddText(Asc.scope.msgContent);
-					oDocument.AddElement(0, oParagraph);
-				})
+		const overwriteContent = (event) => {
+			const msg = event.data;
+			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
+				console.log('Overwrite Received: ');
+				console.log(msg);
+				if (msg.content) {
+					Asc.scope.msgContent = msg.content;
+					Asc.plugin.callCommand(() => {
+						var oDocument = Api.GetDocument();
+						oDocument.RemoveAllElements();
+						var oParagraph = Api.CreateParagraph();
+						oParagraph.AddText(Asc.scope.msgContent);
+						oDocument.AddElement(0, oParagraph);
+					})
+				}
+				return true;
 			}
+			return false;
 		}
-		// window.addEventListener('message', event => {
-		// 	// IMPORTANT: check the origin of the data!
-		// 	// if (event.origin === 'https://your-first-site.example') {
-		// 		// The data was sent from your site.
-		// 		// Data sent with postMessage is stored in event.data:
-		// 	// }
+		window.addEventListener('message', event => {
+			// IMPORTANT: check the origin of the data!
+			// if (event.origin === 'https://your-first-site.example') {
+				// The data was sent from your site.
+				// Data sent with postMessage is stored in event.data:
+			// }
 
-		// 	// Remove event listener after executing 1 time;
-		// 	if (overwriteContent(event)) {
-		// 		window.removeEventListener('message', event => {
-		// 			overwriteContent(event);
-		// 		});
-		// 	}
-		// });
+			// Remove event listener after executing 1 time;
+			if (overwriteContent(event)) {
+				window.removeEventListener('message', event => {
+					overwriteContent(event);
+				});
+			}
+		});
 	};
-
-		// window.Asc.plugin.event_onDocumentContentReady = function()
-	// {
-	// 	window.parent.parent.postMessage('OverwriteContent', '*');
-	// 	const overwriteContent = (event) => {
-	// 		const msg = event.data;
-	// 		if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-	// 			console.log('Overwrite Received: ');
-	// 			if (msg.content) {
-	// 				Asc.plugin.callCommand(() => {
-	// 					console.log(msg);
-	// 					var oDocument = Api.GetDocument();
-	// 					oDocument.RemoveAllElements();
-	// 					var oParagraph = Api.CreateParagraph();
-	// 					oParagraph.AddText(msg.content);
-	// 					oDocument.AddElement(0, oParagraph);
-	// 				})
-	// 			}
-	// 			return true;
-	// 		}
-	// 		return false;
-	// 	}
-	// 	window.addEventListener('message', event => {
-	// 		// IMPORTANT: check the origin of the data!
-	// 		// if (event.origin === 'https://your-first-site.example') {
-	// 			// The data was sent from your site.
-	// 			// Data sent with postMessage is stored in event.data:
-	// 		// }
-
-	// 		// Remove event listener after executing 1 time;
-	// 		if (overwriteContent(event)) {
-	// 			window.removeEventListener('message', event => {
-	// 				overwriteContent(event);
-	// 			});
-	// 		}
-	// 	});
-	// };
 
 })(window, undefined);

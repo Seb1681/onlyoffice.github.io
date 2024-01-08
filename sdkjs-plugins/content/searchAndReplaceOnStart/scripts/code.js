@@ -37,18 +37,18 @@
 		}
 		window.parent.parent.postMessage(payload, '*');
 
-		const connection = new signalR.HubConnectionBuilder()
-			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
-			.configureLogging(signalR.LogLevel.Information)
-			.build();
+		// const connection = new signalR.HubConnectionBuilder()
+		// 	.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
+		// 	.configureLogging(signalR.LogLevel.Information)
+		// 	.build();
 
-		try {
-			connection.start();
-			console.log("SignalR Connected.");
-		} catch (err) {
-			console.log(err);
-			// setTimeout(start, 5000);
-		}
+		// try {
+		// 	connection.start();
+		// 	console.log("SignalR Connected.");
+		// } catch (err) {
+		// 	console.log(err);
+		// 	// setTimeout(start, 5000);
+		// }
 
 		// const overwriteContent = (event) => {
 		// 	const msg = event.data;

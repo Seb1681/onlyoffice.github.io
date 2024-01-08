@@ -44,7 +44,11 @@
     let rsdId = '';
 
     window.Asc.plugin.init = function () {
-        window.parent.parent.postMessage('GetAiMetaData', '*');
+        const payload = {
+			onlyOfficePlugin: 'GetAiMetaData',
+			pluginId: '123'
+		}
+        window.parent.parent.postMessage(payload, '*');
         window.addEventListener('message', event => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {

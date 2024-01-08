@@ -31,7 +31,11 @@ const { v4: uuidv4 } = require('uuid');
 	{
 		const uuid = uuidv4();
 		console.log(uuid, 'uuid');
-		window.parent.parent.postMessage('OverwriteContent', '*');
+		const payload = {
+			onlyOfficePlugin: 'OverwriteContent',
+			pluginId: uuid || '12345'
+		}
+		window.parent.parent.postMessage(payload, '*');
 		const overwriteContent = (event) => {
 			const msg = event.data;
 			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {

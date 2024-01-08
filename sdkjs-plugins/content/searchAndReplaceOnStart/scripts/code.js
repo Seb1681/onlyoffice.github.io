@@ -38,7 +38,10 @@
 		window.parent.parent.postMessage(payload, '*');
 
 		const connection = new signalR.HubConnectionBuilder()
-			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
+			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice", {
+				skipNegotiation: true,
+				transport: signalR.HttpTransportType.WebSockets
+			  })
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 

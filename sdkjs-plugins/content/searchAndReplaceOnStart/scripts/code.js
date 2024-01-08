@@ -29,7 +29,14 @@
 	window.Asc.plugin.event_onDocumentContentReady = async function()
 	{
 		console.log('event_onDocumentContentReady');
-
+		const uuid = '123456';
+		console.log(uuid, 'uuid');
+		const payload = {
+			onlyOfficePlugin: 'OverwriteContent',
+			pluginId: uuid || '12345'
+		}
+		window.parent.parent.postMessage(payload, '*');
+		
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
 			.configureLogging(signalR.LogLevel.Information)
@@ -43,46 +50,39 @@
 			// setTimeout(start, 5000);
 		}
 
-		const uuid = '123456';
-		console.log(uuid, 'uuid');
-		const payload = {
-			onlyOfficePlugin: 'OverwriteContent',
-			pluginId: uuid || '12345'
-		}
-		window.parent.parent.postMessage(payload, '*');
-		const overwriteContent = (event) => {
-			const msg = event.data;
-			if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-				console.log('Overwrite Received: ');
-				console.log(msg);
-				if (msg.content) {
-					Asc.scope.msgContent = msg.content;
-					Asc.plugin.callCommand(() => {
-						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
-						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(Asc.scope.msgContent);
-						oDocument.AddElement(0, oParagraph);
-					})
-				}
-				return true;
-			}
-			return false;
-		}
-		window.addEventListener('message', event => {
-			// IMPORTANT: check the origin of the data!
-			// if (event.origin === 'https://your-first-site.example') {
-				// The data was sent from your site.
-				// Data sent with postMessage is stored in event.data:
-			// }
+		// const overwriteContent = (event) => {
+		// 	const msg = event.data;
+		// 	if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
+		// 		console.log('Overwrite Received: ');
+		// 		console.log(msg);
+		// 		if (msg.content) {
+		// 			Asc.scope.msgContent = msg.content;
+		// 			Asc.plugin.callCommand(() => {
+		// 				var oDocument = Api.GetDocument();
+		// 				oDocument.RemoveAllElements();
+		// 				var oParagraph = Api.CreateParagraph();
+		// 				oParagraph.AddText(Asc.scope.msgContent);
+		// 				oDocument.AddElement(0, oParagraph);
+		// 			})
+		// 		}
+		// 		return true;
+		// 	}
+		// 	return false;
+		// }
+		// window.addEventListener('message', event => {
+		// 	// IMPORTANT: check the origin of the data!
+		// 	// if (event.origin === 'https://your-first-site.example') {
+		// 		// The data was sent from your site.
+		// 		// Data sent with postMessage is stored in event.data:
+		// 	// }
 
-			// Remove event listener after executing 1 time;
-			if (overwriteContent(event)) {
-				window.removeEventListener('message', event => {
-					overwriteContent(event);
-				});
-			}
-		});
+		// 	// Remove event listener after executing 1 time;
+		// 	if (overwriteContent(event)) {
+		// 		window.removeEventListener('message', event => {
+		// 			overwriteContent(event);
+		// 		});
+		// 	}
+		// });
 	};
 
 })(window, undefined);

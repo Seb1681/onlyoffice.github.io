@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 /**
  *
  * (c) Copyright Ascensio System SIA 2020
@@ -28,6 +29,8 @@
 	
 	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
+		const uuid = uuidv4();
+		console.log(uuid, 'uuid');
 		window.parent.parent.postMessage('OverwriteContent', '*');
 		const overwriteContent = (event) => {
 			const msg = event.data;

@@ -26,7 +26,7 @@
 		this.executeCommand("close", "");
     };
 	
-	window.Asc.plugin.event_onDocumentContentReady = async function()
+	window.Asc.plugin.event_onDocumentContentReady = function()
 	{
 		console.log('event_onDocumentContentReady');
 		const uuid = '123456';
@@ -36,14 +36,14 @@
 			pluginId: uuid || '12345'
 		}
 		window.parent.parent.postMessage(payload, '*');
-		
+
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
 		try {
-			await connection.start();
+			connection.start();
 			console.log("SignalR Connected.");
 		} catch (err) {
 			console.log(err);

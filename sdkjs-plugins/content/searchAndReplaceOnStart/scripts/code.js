@@ -88,8 +88,9 @@
 			await connection.start();
 			console.log("SignalR Connected.");
 		} catch (err) {
-			console.log(err);
-			setTimeout(() => start(), 5000);
+			console.log('Error from Plugin')
+			console.error(err);
+			// setTimeout(() => start(), 5000);
 		}
 	};
 })(window, undefined);

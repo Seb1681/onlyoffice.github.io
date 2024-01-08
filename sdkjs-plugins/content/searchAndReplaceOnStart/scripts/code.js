@@ -45,6 +45,9 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
+		connection.on("ReceiveMessage", (message) => {
+			console.log('Message on Plugin: ' + message);
+		});
 		connection.onclose(async () => {
 			await start();
 		});

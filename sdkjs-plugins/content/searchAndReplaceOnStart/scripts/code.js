@@ -19,17 +19,7 @@
     
     window.Asc.plugin.init = function()
     {
-    };
-
-    window.Asc.plugin.button = function(id)
-    {
-		this.executeCommand("close", "");
-    };
-	
-	window.Asc.plugin.event_onDocumentContentReady = function()
-	{
-		console.log('event_onDocumentContentReady');
-		const uuid = '123456';
+		const uuid = uuid.v4();
 		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
@@ -45,15 +35,21 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (message) => {
+		connection.on("ReceiveMessage", (user, message) => {
+			console.log('User on Plugin: ' + user);
 			console.log('Message on Plugin: ' + message);
-		});
-		connection.onclose(async () => {
-			await start();
 		});
 
 		start(connection).then(() => {console.log('SignalR Connected')});
+    };
 
+    window.Asc.plugin.button = function(id)
+    {
+		this.executeCommand("close", "");
+    };
+	
+	window.Asc.plugin.event_onDocumentContentReady = function()
+	{
 		// const overwriteContent = (event) => {
 		// 	const msg = event.data;
 		// 	if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {

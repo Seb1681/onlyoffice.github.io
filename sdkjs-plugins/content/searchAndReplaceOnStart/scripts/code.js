@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require('uuid');
 /**
  *
  * (c) Copyright Ascensio System SIA 2020
@@ -27,9 +26,24 @@ const { v4: uuidv4 } = require('uuid');
 		this.executeCommand("close", "");
     };
 	
-	window.Asc.plugin.event_onDocumentContentReady = function()
+	window.Asc.plugin.event_onDocumentContentReady = async function()
 	{
-		const uuid = uuidv4();
+		console.log('event_onDocumentContentReady');
+
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice")
+			.configureLogging(signalR.LogLevel.Information)
+			.build();
+
+		try {
+			await connection.start();
+			console.log("SignalR Connected.");
+		} catch (err) {
+			console.log(err);
+			// setTimeout(start, 5000);
+		}
+
+		const uuid = '123456';
 		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',

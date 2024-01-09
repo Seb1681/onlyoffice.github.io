@@ -34,9 +34,12 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (user, message) => {
+		connection.on("ReceiveMessage", (message) => {
 			console.log('User on Plugin: ' + user);
 			console.log('Message on Plugin: ' + message);
+			overwriteContent(message);
+			
+			connection.stop().then(() => console.log('Connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
 
 		start(connection);
@@ -47,49 +50,29 @@
 		this.executeCommand("close", "");
     };
 	
-	window.Asc.plugin.event_onDocumentContentReady = function()
-	{
-		// const overwriteContent = (event) => {
-		// 	const msg = event.data;
-		// 	if (msg && typeof msg === 'object' && msg.action && msg.action == 'overwriteContent') {
-		// 		console.log('Overwrite Received: ');
-		// 		console.log(msg);
-		// 		if (msg.content) {
-		// 			Asc.scope.msgContent = msg.content;
-		// 			Asc.plugin.callCommand(() => {
-		// 				var oDocument = Api.GetDocument();
-		// 				oDocument.RemoveAllElements();
-		// 				var oParagraph = Api.CreateParagraph();
-		// 				oParagraph.AddText(Asc.scope.msgContent);
-		// 				oDocument.AddElement(0, oParagraph);
-		// 			})
-		// 		}
-		// 		return true;
-		// 	}
-		// 	return false;
-		// }
-		// window.addEventListener('message', event => {
-		// 	// IMPORTANT: check the origin of the data!
-		// 	// if (event.origin === 'https://your-first-site.example') {
-		// 		// The data was sent from your site.
-		// 		// Data sent with postMessage is stored in event.data:
-		// 	// }
-
-		// 	// Remove event listener after executing 1 time;
-		// 	if (overwriteContent(event)) {
-		// 		window.removeEventListener('message', event => {
-		// 			overwriteContent(event);
-		// 		});
-		// 	}
-		// });
-	};
+	// window.Asc.plugin.event_onDocumentContentReady = function()
+	// {
+		const overwriteContent = (msg) => {
+			if (msg) {
+				console.log('Overwrite Received: ');
+				if (msg) {
+					Asc.scope.msgContent = msg;
+					Asc.plugin.callCommand(() => {
+						var oDocument = Api.GetDocument();
+						oDocument.RemoveAllElements();
+						var oParagraph = Api.CreateParagraph();
+						oParagraph.AddText(Asc.scope.msgContent);
+						oDocument.AddElement(0, oParagraph);
+					})
+				}
+			}
+		}
+	// };
 
 	const start = async (connection) => {
 		try {
-			console.log("Starting SignalR.");
 			await connection.start();
-			console.log("SignalR Connected.");
-			connection.invoke("SendMessage", "User", "Message");
+			console.log("SignalR Connected on overwrite content");
 		} catch (err) {
 			console.log('Error from Plugin')
 			console.error(err);

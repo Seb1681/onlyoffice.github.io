@@ -34,7 +34,7 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (message) => {
+		connection.on("ReceiveMessage", (user, message) => {
 			console.log('Message on Plugin: ' + message);
 			overwriteContent(message);
 

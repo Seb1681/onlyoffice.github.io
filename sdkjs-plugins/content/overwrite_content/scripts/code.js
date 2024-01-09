@@ -35,10 +35,9 @@
 			.build();
 
 		connection.on("ReceiveMessage", (message) => {
-			console.log('User on Plugin: ' + user);
 			console.log('Message on Plugin: ' + message);
 			overwriteContent(message);
-			
+
 			connection.stop().then(() => console.log('Connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
 

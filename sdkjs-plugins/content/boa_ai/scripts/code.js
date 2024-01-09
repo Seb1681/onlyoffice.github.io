@@ -45,7 +45,6 @@
 
     window.Asc.plugin.init = function () {
         const uuid = uuidv4();
-		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
 			pluginId: uuid

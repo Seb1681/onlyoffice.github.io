@@ -20,7 +20,6 @@
     window.Asc.plugin.init = function()
     {
 		const uuid = uuidv4();
-		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
 			pluginId: uuid
@@ -40,7 +39,7 @@
 			console.log('Message on Plugin: ' + message);
 		});
 
-		start(connection).then(() => {console.log('SignalR Connected')});
+		start(connection);
     };
 
     window.Asc.plugin.button = function(id)

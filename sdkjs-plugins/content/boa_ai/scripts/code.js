@@ -57,16 +57,15 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (user, message) => {
-			console.log('User on Plugin: ' + user);
+		connection.on("ReceiveMessage", (message) => {
 			console.log('Message on Plugin: ' + message);
-
 			if (message) {
                 console.log('BOA AI Received');
                 console.log(message);
                 const initData = JSON.parse(message);
                 token= initData.token;
                 rsdId = initData.rsdId;
+			    connection.stop().then(() => console.log('BOA AI connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 			}
 		});
 

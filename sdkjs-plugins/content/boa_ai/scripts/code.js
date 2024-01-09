@@ -71,7 +71,6 @@
 		});
 
 		start(connection).then(() => {
-            console.log('SignalR Connected');
 		    window.parent.parent.postMessage(payload, '*');
         });
 
@@ -86,7 +85,7 @@
 			console.log("Starting SignalR from BOA AI");
 			await connection.start();
 			console.log("SignalR Connected.");
-			connection.invoke("SendMessage", "User", "Message");
+			connection.invoke("SendMessage", "User From BOA AI", "Message FROM BOA AI");
 		} catch (err) {
 			console.log('Error from Plugin')
 			console.error(err);

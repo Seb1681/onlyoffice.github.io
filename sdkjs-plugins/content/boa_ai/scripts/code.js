@@ -44,16 +44,14 @@
     let rsdId = '';
 
     window.Asc.plugin.init = function () {
-        const uuid = uuid.v4();
+        const uuid = uuidv4();
 		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
 			pluginId: uuid
 		}
-		window.parent.parent.postMessage(payload, '*');
-
 		const connection = new signalR.HubConnectionBuilder()
-			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice", {
+			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
 				transport: signalR.HttpTransportType.WebSockets
 			  })
@@ -73,7 +71,10 @@
 			}
 		});
 
-		start(connection).then(() => {console.log('SignalR Connected')});
+		start(connection).then(() => {
+            console.log('SignalR Connected');
+		    window.parent.parent.postMessage(payload, '*');
+        });
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');

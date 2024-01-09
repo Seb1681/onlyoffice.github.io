@@ -81,6 +81,19 @@
         typingIndicator = document.querySelector('.typing-indicator');
     };
 
+    const start = async (connection) => {
+		try {
+			console.log("Starting SignalR from BOA AI");
+			await connection.start();
+			console.log("SignalR Connected.");
+			connection.invoke("SendMessage", "User", "Message");
+		} catch (err) {
+			console.log('Error from Plugin')
+			console.error(err);
+			// setTimeout(() => start(), 5000);
+		}
+	};
+
     window.Asc.plugin.button = function () {
         this.executeCommand("close", "");
     };
@@ -186,7 +199,6 @@
         //  scroll to the bottom of the message history
         messageHistory.scrollTop = messageHistory.scrollHeight;
     };
-
 
     //summarize
     window.Asc.plugin.attachContextMenuClickEvent('summarize', function () {
@@ -455,7 +467,6 @@
         // recursively call processResult() to continue reading data from the stream
         displaySSEMessage(result, currentDiv, currentMessage);
     }
-
 
     function generateText(text) {
         let lang = window.Asc.plugin.info.lang.substring(0, 2);

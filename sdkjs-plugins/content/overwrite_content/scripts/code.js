@@ -19,7 +19,7 @@
     
     window.Asc.plugin.init = function()
     {
-		const uuid = uuid.v4();
+		const uuid = uuidv4();
 		console.log(uuid, 'uuid');
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
@@ -89,6 +89,7 @@
 		try {
 			await connection.start();
 			console.log("SignalR Connected.");
+			connection.invoke("SendMessage", "User", "Message");
 		} catch (err) {
 			console.log('Error from Plugin')
 			console.error(err);

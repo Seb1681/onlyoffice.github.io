@@ -44,25 +44,36 @@
     let rsdId = '';
 
     window.Asc.plugin.init = function () {
-        const payload = {
-			onlyOfficePlugin: 'GetAiMetaData',
-			pluginId: '123'
+        const uuid = uuid.v4();
+		console.log(uuid, 'uuid');
+		const payload = {
+			onlyOfficePlugin: 'OverwriteContent',
+			pluginId: uuid
 		}
-        window.parent.parent.postMessage(payload, '*');
-        window.addEventListener('message', event => {
-			const msg = event.data;
-			if (msg && typeof msg === 'object' && msg.action && msg.action == 'getAiMetaData') {
+		window.parent.parent.postMessage(payload, '*');
+
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice", {
+				skipNegotiation: true,
+				transport: signalR.HttpTransportType.WebSockets
+			  })
+			.configureLogging(signalR.LogLevel.Information)
+			.build();
+
+		connection.on("ReceiveMessage", (user, message) => {
+			console.log('User on Plugin: ' + user);
+			console.log('Message on Plugin: ' + message);
+
+			if (message) {
                 console.log('BOA AI Received');
-                console.log(msg)
-                token= msg.token;
-                rsdId = msg.rsdId;
+                console.log(message);
+                const initData = JSON.parse(message);
+                token= initData.token;
+                rsdId = initData.rsdId;
 			}
-			// IMPORTANT: check the origin of the data!
-			// if (event.origin === 'https://your-first-site.example') {
-				// The data was sent from your site.
-				// Data sent with postMessage is stored in event.data:
-			// }
-        });
+		});
+
+		start(connection).then(() => {console.log('SignalR Connected')});
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');

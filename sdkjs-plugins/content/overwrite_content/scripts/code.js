@@ -84,8 +84,9 @@
 		// });
 	};
 
-	async function start(connection) {
+	const start = async (connection) => {
 		try {
+			console.log("Starting SignalR.");
 			await connection.start();
 			console.log("SignalR Connected.");
 			connection.invoke("SendMessage", "User", "Message");

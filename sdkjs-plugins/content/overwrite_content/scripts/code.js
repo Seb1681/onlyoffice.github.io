@@ -19,7 +19,7 @@
     
     window.Asc.plugin.init = function()
     {
-		const uuid = "5f7ddee2-d781-4ab4-b5b6-65faf4a8c0be" // uuidv4();
+		const uuid = uuidv4();
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',
 			pluginId: uuid
@@ -31,11 +31,11 @@
 				skipNegotiation: true,
 				transport: signalR.HttpTransportType.WebSockets
 			  })
-			.configureLogging(signalR.LogLevel.Information)
+			// .configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (message) => {
-			console.log('Message on Plugin: ' + message);
+		connection.on("ReceiveMessage", (user, message) => {
+			console.log('Message on BOA AI: ' + message);
 			overwriteContent(message);
 
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));

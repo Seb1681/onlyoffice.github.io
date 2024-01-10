@@ -57,7 +57,7 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (message) => {
+		connection.on("ReceiveMessage", (user, message) => {
 			console.log('Message on Plugin: ' + message);
 			if (message) {
                 console.log('BOA AI Received');
@@ -81,10 +81,8 @@
 
     const start = async (connection) => {
 		try {
-			console.log("Starting SignalR from BOA AI");
 			await connection.start();
-			console.log("SignalR Connected.");
-			connection.invoke("SendMessage", "5f7ddee2-d781-4ab4-b5b6-65faf4a8c0be", "Message FROM BOA AI");
+			console.log("SignalR Connected from BOA AI");
 		} catch (err) {
 			console.log('Error from Plugin')
 			console.error(err);

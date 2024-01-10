@@ -61,10 +61,10 @@
 						var oDocument = Api.GetDocument();
 						const content = Asc.scope.msgContent;
 						var cleanedText = content.slice(1, -1).split('\\n');
-						cleanedText.forEach((text) => {
+						cleanedText.forEach((text, index) => {
 							var oParagraph = Api.CreateParagraph();
 							oParagraph.AddText(text);
-							oDocument.AddElement(oDocument.GetElementsCount(), oParagraph);
+							oDocument.AddElement(index, oParagraph);
 						});
 					});
 				}

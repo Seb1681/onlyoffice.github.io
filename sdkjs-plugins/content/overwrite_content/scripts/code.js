@@ -19,13 +19,6 @@
     
     window.Asc.plugin.init = function()
     {
-		const uuid = uuidv4();
-		const payload = {
-			onlyOfficePlugin: 'OverwriteContent',
-			pluginId: uuid
-		}
-		window.parent.parent.postMessage(payload, '*');
-
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
@@ -71,7 +64,13 @@
 	const start = async (connection) => {
 		try {
 			await connection.start();
+			const uuid = uuidv4();
+			const payload = {
+				onlyOfficePlugin: 'OverwriteContent',
+				pluginId: uuid
+			}
 			console.log("SignalR Connected on overwrite content");
+			window.parent.parent.postMessage(payload, '*');
 		} catch (err) {
 			console.log('Error from Plugin')
 			console.error(err);

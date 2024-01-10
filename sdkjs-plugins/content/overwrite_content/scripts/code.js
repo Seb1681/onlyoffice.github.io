@@ -26,7 +26,7 @@
 		}
 
 		const connection = new signalR.HubConnectionBuilder()
-			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
+			.withUrl("https://boa-admin-vnext.dev.azaas.online/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
 				transport: signalR.HttpTransportType.WebSockets
 			  })

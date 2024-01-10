@@ -43,7 +43,7 @@
     let token = '';
     let rsdId = '';
 
-    window.Asc.plugin.init = function ()
+    window.Asc.plugin.init = async function ()
     {
         const uuid = uuidv4();
 		const payload = {
@@ -70,7 +70,8 @@
 			}
 		});
 
-		start(connection)
+        await connection.start();
+        console.log("SignalR Connected from BOA AI");
         window.parent.parent.postMessage(payload, '*');
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);

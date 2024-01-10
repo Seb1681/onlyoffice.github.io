@@ -34,7 +34,7 @@
 			.build();
 
 		connection.on("ReceiveMessage", (user, message) => {
-			console.log('Message on BOA AI: ' + message);
+			console.log('Message on overwrite: ' + message);
 			overwriteContent(message);
 
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
@@ -73,7 +73,6 @@
 			await connection.start();
 			console.log("SignalR Connected on overwrite content");
 		} catch (err) {
-			console.log('Error from Plugin')
 			console.error(err);
 			// setTimeout(() => start(), 5000);
 		}

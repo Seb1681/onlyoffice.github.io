@@ -58,11 +58,9 @@
 			.configureLogging(signalR.LogLevel.Information)
 			.build();
 
-		connection.on("ReceiveMessage", (message) => {
+		connection.on("ReceiveMessage", (user, message) => {
 			console.log('Message on BOA AI: ' + message);
 			if (message) {
-                console.log('BOA AI Received');
-                console.log(message);
                 const initData = JSON.parse(message);
                 token= initData.token;
                 rsdId = initData.rsdId;

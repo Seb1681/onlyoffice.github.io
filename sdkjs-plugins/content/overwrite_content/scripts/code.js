@@ -17,7 +17,7 @@
  */
 (function(window, undefined){
     
-    window.Asc.plugin.init = function()
+    window.Asc.plugin.init = async function()
     {
 		const uuid = uuidv4();
 		const payload = {
@@ -40,7 +40,8 @@
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
 
-		start(connection);
+		await connection.start();
+		console.log("SignalR Connected on overwrite content");
 		window.parent.parent.postMessage(payload, '*');
     };
 

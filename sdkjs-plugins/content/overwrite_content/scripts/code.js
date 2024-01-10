@@ -55,7 +55,7 @@
 		const overwriteContent = (msg) => {
 			if (msg) {
 				console.log('Overwrite Received: ');
-				console.log("(test insert)")
+				console.log("(test index)")
 				if (msg) {
 					Asc.scope.msgContent = msg;
 					Asc.plugin.callCommand(() => {
@@ -65,7 +65,8 @@
 						cleanedText.forEach((text, index) => {
 							var oParagraph = Api.CreateParagraph();
 							oParagraph.AddText(text);
-							oDocument.InsertContent([oParagraph]);
+							console.log('index: ' + index);
+							oDocument.AddElement(index, oParagraph);
 						});
 					});
 				}

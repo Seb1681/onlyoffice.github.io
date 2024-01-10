@@ -55,20 +55,19 @@
 		const overwriteContent = (msg) => {
 			if (msg) {
 				console.log('Overwrite Received: ');
-				console.log("(test index)")
 				if (msg) {
 					Asc.scope.msgContent = msg;
 					Asc.plugin.callCommand(() => {
 						var oDocument = Api.GetDocument();
+						oDocument.RemoveAllElements();
 						const content = Asc.scope.msgContent;
 						var cleanedText = content.slice(1, -1).split('\\n');
 						cleanedText.forEach((text, index) => {
 							var oParagraph = Api.CreateParagraph();
 							oParagraph.AddText(text);
-							console.log('index: ' + index);
 							oDocument.AddElement(index, oParagraph);
 						});
-					});
+					})
 				}
 			}
 		}

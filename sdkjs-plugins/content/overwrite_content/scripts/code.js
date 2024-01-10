@@ -17,8 +17,14 @@
  */
 (function(window, undefined){
     
-    window.Asc.plugin.init = () =>
+    window.Asc.plugin.init = function()
     {
+		const uuid = uuidv4();
+		const payload = {
+			onlyOfficePlugin: 'OverwriteContent',
+			pluginId: uuid
+		}
+
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
@@ -34,13 +40,7 @@
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
 
-		console.log("connecting to overwrite-content signalR")
 		start(connection);
-		const uuid = uuidv4();
-		const payload = {
-			onlyOfficePlugin: 'OverwriteContent',
-			pluginId: uuid
-		}
 		window.parent.parent.postMessage(payload, '*');
     };
 
@@ -51,21 +51,21 @@
 	
 	// window.Asc.plugin.event_onDocumentContentReady = function()
 	// {
-	const overwriteContent = (msg) => {
-		if (msg) {
-			console.log('Overwrite Received: ');
+		const overwriteContent = (msg) => {
 			if (msg) {
-				Asc.scope.msgContent = msg;
-				Asc.plugin.callCommand(() => {
-					var oDocument = Api.GetDocument();
-					oDocument.RemoveAllElements();
-					var oParagraph = Api.CreateParagraph();
-					oParagraph.AddText(Asc.scope.msgContent);
-					oDocument.AddElement(0, oParagraph);
-				})
+				console.log('Overwrite Received: ');
+				if (msg) {
+					Asc.scope.msgContent = msg;
+					Asc.plugin.callCommand(() => {
+						var oDocument = Api.GetDocument();
+						oDocument.RemoveAllElements();
+						var oParagraph = Api.CreateParagraph();
+						oParagraph.AddText(Asc.scope.msgContent);
+						oDocument.AddElement(0, oParagraph);
+					})
+				}
 			}
 		}
-	}
 	// };
 
 	const start = async (connection) => {

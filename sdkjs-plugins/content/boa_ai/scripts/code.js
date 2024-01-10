@@ -43,7 +43,7 @@
     let token = '';
     let rsdId = '';
 
-    window.Asc.plugin.init = function () {
+    window.Asc.plugin.init = async () => {
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
@@ -64,7 +64,14 @@
 			}
 		});
 
-		start(connection);
+		await start(connection);
+
+        const uuid = uuidv4();
+        const payload = {
+            onlyOfficePlugin: 'OverwriteContent',
+            pluginId: uuid
+        }
+        window.parent.parent.postMessage(payload, '*');
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
@@ -75,12 +82,6 @@
     const start = async (connection) => {
 		try {
 			await connection.start();
-            const uuid = uuidv4();
-            const payload = {
-                onlyOfficePlugin: 'OverwriteContent',
-                pluginId: uuid
-            }
-		    window.parent.parent.postMessage(payload, '*');
 			console.log("SignalR Connected from BOA AI");
 		} catch (err) {
 			console.log('Error from Plugin')

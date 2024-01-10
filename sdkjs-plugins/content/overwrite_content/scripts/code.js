@@ -59,15 +59,14 @@
 					Asc.scope.msgContent = msg;
 					Asc.plugin.callCommand(() => {
 						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
 						const content = Asc.scope.msgContent;
 						var cleanedText = content.slice(1, -1).split('\\n');
 						cleanedText.forEach((text) => {
 							var oParagraph = Api.CreateParagraph();
 							oParagraph.AddText(text);
-							oDocument.AddElement(0, oParagraph);
+							oDocument.AddElement(oDocument.GetElementsCount(), oParagraph);
 						});
-					})
+					});
 				}
 			}
 		}

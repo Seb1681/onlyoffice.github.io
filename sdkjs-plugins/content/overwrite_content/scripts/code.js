@@ -55,6 +55,7 @@
 		const overwriteContent = (msg) => {
 			if (msg) {
 				console.log('Overwrite Received: ');
+				console.log("(test insert)")
 				if (msg) {
 					Asc.scope.msgContent = msg;
 					Asc.plugin.callCommand(() => {
@@ -64,7 +65,7 @@
 						cleanedText.forEach((text, index) => {
 							var oParagraph = Api.CreateParagraph();
 							oParagraph.AddText(text);
-							oDocument.AddElement(index, oParagraph);
+							oDocument.InsertContent([oParagraph]);
 						});
 					});
 				}

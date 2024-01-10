@@ -69,9 +69,7 @@
 			}
 		});
 
-		start(connection).then(() => {
-		    window.parent.parent.postMessage(payload, '*');
-        });
+		start(connection);
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
@@ -82,6 +80,7 @@
     const start = async (connection) => {
 		try {
 			await connection.start();
+		    window.parent.parent.postMessage(payload, '*');
 			console.log("SignalR Connected from BOA AI");
 		} catch (err) {
 			console.log('Error from Plugin')

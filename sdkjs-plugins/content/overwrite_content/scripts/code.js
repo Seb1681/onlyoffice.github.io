@@ -17,7 +17,7 @@
  */
 (function(window, undefined){
     
-    window.Asc.plugin.init = async () =>
+    window.Asc.plugin.init = () =>
     {
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
@@ -35,7 +35,7 @@
 		});
 
 		console.log("connecting to overwrite-content signalR")
-		await start(connection);
+		start(connection);
 		const uuid = uuidv4();
 		const payload = {
 			onlyOfficePlugin: 'OverwriteContent',

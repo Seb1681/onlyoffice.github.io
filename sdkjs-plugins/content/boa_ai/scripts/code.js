@@ -40,10 +40,10 @@
     let messageInput = null;
     let typingIndicator = null;
     let lang = '';
-    let token = '';
+    let token = ''
     let rsdId = '';
 
-    window.Asc.plugin.init = async () => {
+    window.Asc.plugin.init = () => {
 		const connection = new signalR.HubConnectionBuilder()
 			.withUrl("http://localhost:44301/signalr-hubs/onlyOffice?pluginId=" + uuid, {
 				skipNegotiation: true,
@@ -64,7 +64,7 @@
 			}
 		});
 
-		await start(connection);
+		start(connection);
 
         const uuid = uuidv4();
         const payload = {

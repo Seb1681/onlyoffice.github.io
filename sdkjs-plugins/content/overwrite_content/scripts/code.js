@@ -60,9 +60,13 @@
 					Asc.plugin.callCommand(() => {
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
-						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(Asc.scope.msgContent);
-						oDocument.AddElement(0, oParagraph);
+						const content = Asc.scope.msgContent;
+						var cleanedText = text.slice(1, -1).split('\\n');
+						cleanedText.forEach((text) => {
+							var oParagraph = Api.CreateParagraph();
+							oParagraph.AddText(text);
+							oDocument.AddElement(0, oParagraph);
+						});
 					})
 				}
 			}

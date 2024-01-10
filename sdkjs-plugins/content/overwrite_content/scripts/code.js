@@ -34,6 +34,7 @@
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
 
+		console.log("connecting to overwrite-content signalR")
 		await start(connection);
 		const uuid = uuidv4();
 		const payload = {
@@ -50,21 +51,21 @@
 	
 	// window.Asc.plugin.event_onDocumentContentReady = function()
 	// {
-		const overwriteContent = (msg) => {
+	const overwriteContent = (msg) => {
+		if (msg) {
+			console.log('Overwrite Received: ');
 			if (msg) {
-				console.log('Overwrite Received: ');
-				if (msg) {
-					Asc.scope.msgContent = msg;
-					Asc.plugin.callCommand(() => {
-						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
-						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(Asc.scope.msgContent);
-						oDocument.AddElement(0, oParagraph);
-					})
-				}
+				Asc.scope.msgContent = msg;
+				Asc.plugin.callCommand(() => {
+					var oDocument = Api.GetDocument();
+					oDocument.RemoveAllElements();
+					var oParagraph = Api.CreateParagraph();
+					oParagraph.AddText(Asc.scope.msgContent);
+					oDocument.AddElement(0, oParagraph);
+				})
 			}
 		}
+	}
 	// };
 
 	const start = async (connection) => {

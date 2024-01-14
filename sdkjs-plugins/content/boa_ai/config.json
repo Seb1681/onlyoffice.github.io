@@ -1,12 +1,12 @@
 {
-    "name": "BOA AI",
+    "name": "RSD Pilot",
     "guid": "asc.{4b5efd7f-7c8d-1ef4-feab-bfbf2e1d86ad}",
     "baseUrl": "",
     "version": "1.0.1",
-    "offered": "BOA_Test",
+    "offered": "BOA",
     "variations": [
         {
-            "description": "A copilot plugin for OnlyOffice Document based on BOA AI.",
+            "description": "RSD Pilot for OnlyOffice Document.",
             "url": "index.html",
             "icons": [
                 {

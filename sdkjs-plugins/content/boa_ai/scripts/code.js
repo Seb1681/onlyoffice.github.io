@@ -59,34 +59,36 @@
 			.build();
 
 		connection.on("ReceiveMessage", (user, message) => {
-			console.log('Message on BOA AI: ' + message);
+			console.log('Message on RSD Pilot: ' + message);
 			if (message) {
                 const initData = JSON.parse(message);
                 token= initData.token;
                 rsdId = initData.rsdId;
-			    connection.stop().then(() => console.log('BOA AI connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
+			    connection.stop().then(() => console.log('RSD Pilot connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 			}
 		});
 
         await connection.start();
-        console.log("SignalR Connected from BOA AI");
+        console.log("SignalR Connected from RSD Pilot");
         window.parent.parent.postMessage(payload, '*');
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
         messageHistory = document.querySelector('.message-history');
         conversationHistory = [];
         typingIndicator = document.querySelector('.typing-indicator');
+        const greet = "Hi I'm RSD pilot, your dedicated assistant for crafting precise and effective Requirement Specification Documents. How can I assist you today?";
+        displayMessage(greet, 'ai-message');
     };
 
-    const start = async (connection) => {
-		try {
-			await connection.start();
-			console.log("SignalR Connected from BOA AI");
-		} catch (err) {
-			console.error(err);
-			// setTimeout(() => start(), 5000);
-		}
-	};
+    // const start = async (connection) => {
+	// 	try {
+	// 		await connection.start();
+	// 		console.log("SignalR Connected from RSD Pilot");
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 		// setTimeout(() => start(), 5000);
+	// 	}
+	// };
 
     window.Asc.plugin.button = function () {
         this.executeCommand("close", "");
@@ -97,8 +99,8 @@
             guid: window.Asc.plugin.guid,
             items: [
                 {
-                    id: 'BOA AI',
-                    text: generateText('BOA AI'),
+                    id: 'RSD Pilot',
+                    text: generateText('RSD Pilot'),
                     items: [
                         {
                             id: 'generate',

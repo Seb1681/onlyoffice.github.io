@@ -422,6 +422,7 @@
             //     })
             // })
             // .then(response => response.json())
+            .then(response => response.data)
             .then(result => resolve(result))
             .catch(error => reject(error));
         });

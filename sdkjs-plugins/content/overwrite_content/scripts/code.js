@@ -61,12 +61,18 @@
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
 						const content = Asc.scope.msgContent;
-						var cleanedText = content.slice(1, -1).split('\\n');
-						cleanedText.forEach((text, index) => {
-							var oParagraph = Api.CreateParagraph();
-							oParagraph.AddText(text);
-							oDocument.AddElement(index, oParagraph);
-						});
+						console.log('testing insert content');
+						let oDocument = Api.GetDocument();
+                        let oParagraph = Api.CreateParagraph();
+                        oParagraph.AddText(content);
+                        oDocument.InsertContent([oParagraph]);
+
+						// var cleanedText = content.slice(1, -1).split('\\n');
+						// cleanedText.forEach((text, index) => {
+						// 	var oParagraph = Api.CreateParagraph();
+						// 	oParagraph.AddText(text);
+						// 	oDocument.AddElement(index, oParagraph);
+						// });
 					})
 				}
 			}

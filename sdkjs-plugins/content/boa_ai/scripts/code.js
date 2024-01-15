@@ -67,7 +67,7 @@
 			    connection.stop().then(() => console.log('RSD Pilot connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 			}
 		});
-
+        console.log('RSD Pilot Plugin Initiated')
         await connection.start();
         console.log("SignalR Connected from RSD Pilot");
         window.parent.parent.postMessage(payload, '*');
@@ -408,7 +408,6 @@
                     })
                 }
             )
-
             // fetch("https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt", {
             //     method: "POST",
             //     headers: {

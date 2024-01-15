@@ -39,7 +39,7 @@
 
 			connection.stop().then(() => console.log('Overwrite-content connection successfully closed.')).catch(err => console.error('Error while closing the connection: ', err));
 		});
-        console.log('Overwrite Plugin Initiated .json()')
+        console.log('Overwrite Plugin Initiated')
 		await connection.start();
 		console.log("SignalR Connected on overwrite content");
 		window.parent.parent.postMessage(payload, '*');
@@ -60,20 +60,13 @@
 					Asc.plugin.callCommand(() => {
 						var oDocument = Api.GetDocument();
 						oDocument.RemoveAllElements();
-						const content = Asc.scope.msgContent.json();
-						var cleanedText = content.slice(1, -1);
-
-						console.log('testing insert content');
-                        let oParagraph = Api.CreateParagraph();
-                        oParagraph.AddText(cleanedText);
-                        oDocument.InsertContent([oParagraph]);
-
-						// var cleanedText = content.slice(1, -1).split('\\n');
-						// cleanedText.forEach((text, index) => {
-						// 	var oParagraph = Api.CreateParagraph();
-						// 	oParagraph.AddText(text);
-						// 	oDocument.AddElement(index, oParagraph);
-						// });
+						const content = Asc.scope.msgContent;
+						var cleanedText = content.slice(1, -1).split('\\n');
+						cleanedText.forEach((text, index) => {
+							var oParagraph = Api.CreateParagraph();
+							oParagraph.AddText(text);
+							oDocument.AddElement(index, oParagraph);
+						});
 					})
 				}
 			}

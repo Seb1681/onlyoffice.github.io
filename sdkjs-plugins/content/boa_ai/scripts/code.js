@@ -421,7 +421,7 @@
             //         "Question": question
             //     })
             // })
-            .then(response => response.json())
+            // .then(response => response.json())
             .then(result => resolve(result))
             .catch(error => reject(error));
         });

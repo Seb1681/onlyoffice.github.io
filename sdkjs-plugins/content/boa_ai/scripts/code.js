@@ -291,7 +291,7 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please generate the content for: "${text}". Please reply in HTML for this prompt.`);
+            let prompt = (`Please generate the content for: "${text}". Please reply only the HTML content for this prompt.`);
             typingIndicator.innerHTML = 'Generating...';
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)

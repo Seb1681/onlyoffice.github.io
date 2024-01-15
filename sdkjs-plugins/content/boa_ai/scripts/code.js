@@ -297,7 +297,6 @@
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = result;
-                    console.log("Asc.scope.p", Asc.scope.p);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         let oParagraph = Api.CreateParagraph();

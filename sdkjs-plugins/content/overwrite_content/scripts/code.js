@@ -62,7 +62,6 @@
 						oDocument.RemoveAllElements();
 						const content = Asc.scope.msgContent;
 						console.log('testing insert content');
-						let oDocument = Api.GetDocument();
                         let oParagraph = Api.CreateParagraph();
                         oParagraph.AddText(content);
                         oDocument.InsertContent([oParagraph]);

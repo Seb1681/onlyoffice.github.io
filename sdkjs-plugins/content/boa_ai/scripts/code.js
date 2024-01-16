@@ -327,9 +327,9 @@
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = result;
-                    console.log('330')
-                    Asc.scope.parseMarkdown = parseMarkdown;
-                    console.log('332')
+                    parseMarkdown(result).forEach(element => {
+                        console.log(element);
+                    });
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         // var oHeading6Style = oDocument.GetStyle("Heading 6");
@@ -337,10 +337,6 @@
                         // oParagraph.SetStyle(oHeading6Style);
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
-                        console.log('parseMarkdown');
-                        Asc.scope.parseMarkdown(Asc.scope.p).forEach(element => {
-                            console.log(element);
-                        });
                     })
                 })
                 .catch(error => {

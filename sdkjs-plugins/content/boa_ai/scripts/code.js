@@ -300,11 +300,14 @@
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
-                        var oHeading6Style = oDocument.GetStyle("Heading 6");
+                        // var oHeading6Style = oDocument.GetStyle("Heading 6");
                         let oParagraph = Api.CreateParagraph();
-                        oParagraph.SetStyle(oHeading6Style);
+                        // oParagraph.SetStyle(oHeading6Style);
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
+                        parseMarkdown(Asc.scope.p).forEach(element => {
+                            console.log(element);
+                        });
                     })
                 })
                 .catch(error => {
@@ -313,6 +316,35 @@
                 .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
             });
     });
+
+    function parseMarkdown(flowiseResponse) {
+        const markdownContent = flowiseResponse;
+        const elements = [];
+
+        const renderer = {
+            heading(text, level) {
+                elements.push({ type: `heading${level}`, content: text });
+                return '';
+            },
+            paragraph(text) {
+                elements.push({ type: 'paragraph', content: text });
+                return '';
+            },
+            listitem(text) {
+                elements.push({ type: 'list_item', content: text });
+                return '';
+            },
+            blockquote(text) {
+                elements.push({ type: 'blockquote', content: text });
+                return '';
+            },
+            // Add more overrides for other types as needed
+        };
+
+        marked.use({ renderer });
+        marked(markdownContent);
+        return elements;
+    }
 
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {

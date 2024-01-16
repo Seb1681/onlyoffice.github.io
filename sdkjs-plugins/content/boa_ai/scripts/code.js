@@ -291,19 +291,21 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please generate the content for: "${text}". Please reply only the HTML content for this prompt.`);
+            let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
             typingIndicator.innerHTML = 'Generating...';
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
-                    window.Asc.plugin.executeMethod ("PasteHtml", [result]);
-                    // Asc.scope.p = result;
-                    // Asc.plugin.callCommand(function () {
-                    //     let oDocument = Api.GetDocument();
-                    //     let oParagraph = Api.CreateParagraph();
-                    //     oParagraph.AddText(Asc.scope.p);
-                    //     oDocument.InsertContent([oParagraph]);
-                    // })
+                    // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
+                    Asc.scope.p = result;
+                    Asc.plugin.callCommand(function () {
+                        let oDocument = Api.GetDocument();
+                        var oHeading6Style = oDocument.GetStyle("Heading 6");
+                        let oParagraph = Api.CreateParagraph();
+                        oParagraph.SetStyle(oHeading6Style);
+                        oParagraph.AddText(Asc.scope.p);
+                        oDocument.InsertContent([oParagraph]);
+                    })
                 })
                 .catch(error => {
                     console.error(error);

@@ -298,6 +298,7 @@
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = result;
+                    Asc.scope.parseMarkdown = parseMarkdown;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         // var oHeading6Style = oDocument.GetStyle("Heading 6");
@@ -305,7 +306,8 @@
                         // oParagraph.SetStyle(oHeading6Style);
                         oParagraph.AddText(Asc.scope.p);
                         oDocument.InsertContent([oParagraph]);
-                        parseMarkdown(Asc.scope.p).forEach(element => {
+                        console.log('parseMarkdown');
+                        Asc.scope.parseMarkdown(Asc.scope.p).forEach(element => {
                             console.log(element);
                         });
                     })
@@ -317,7 +319,7 @@
             });
     });
 
-    function parseMarkdown(flowiseResponse) {
+    const parseMarkdown = (flowiseResponse) => {
         const markdownContent = flowiseResponse;
         const elements = [];
 

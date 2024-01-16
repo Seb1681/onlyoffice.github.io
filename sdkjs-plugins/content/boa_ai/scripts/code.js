@@ -196,34 +196,34 @@
         });
     });
 
-    const parseMarkdown = (flowiseResponse) => {
-        const markdownContent = flowiseResponse;
-        const elements = [];
+    // const parseMarkdown = (flowiseResponse) => {
+    //     const markdownContent = flowiseResponse;
+    //     const elements = [];
 
-        const renderer = {
-            heading(text, level) {
-                elements.push({ type: `heading${level}`, content: text });
-                return '';
-            },
-            paragraph(text) {
-                elements.push({ type: 'paragraph', content: text });
-                return '';
-            },
-            listitem(text) {
-                elements.push({ type: 'list_item', content: text });
-                return '';
-            },
-            blockquote(text) {
-                elements.push({ type: 'blockquote', content: text });
-                return '';
-            },
-            // Add more overrides for other types as needed
-        };
+    //     const renderer = {
+    //         heading(text, level) {
+    //             elements.push({ type: `heading${level}`, content: text });
+    //             return '';
+    //         },
+    //         paragraph(text) {
+    //             elements.push({ type: 'paragraph', content: text });
+    //             return '';
+    //         },
+    //         listitem(text) {
+    //             elements.push({ type: 'list_item', content: text });
+    //             return '';
+    //         },
+    //         blockquote(text) {
+    //             elements.push({ type: 'blockquote', content: text });
+    //             return '';
+    //         },
+    //         // Add more overrides for other types as needed
+    //     };
 
-        marked.use({ renderer });
-        marked(markdownContent);
-        return elements;
-    }
+    //     marked.use({ renderer });
+    //     marked(markdownContent);
+    //     return elements;
+    // }
 
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
@@ -235,9 +235,9 @@
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = result;
-                    parseMarkdown(result).forEach(element => {
-                        console.log(element);
-                    });
+                    // parseMarkdown(result).forEach(element => {
+                    //     console.log(element);
+                    // });
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         // var oHeading6Style = oDocument.GetStyle("Heading 6");

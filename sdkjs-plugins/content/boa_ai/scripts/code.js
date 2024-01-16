@@ -278,7 +278,7 @@
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please rephrase this sentence: "${text}". Please reply in markdown format for this prompt.`);
+            let prompt = (`Please rephrase this sentence: "${text}". Please reply only the content in markdown format for this prompt.`);
             typingIndicator.innerHTML = 'Rephrasing...';
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
@@ -286,9 +286,13 @@
                     Asc.scope.p = result;
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
-                        let oParagraph = Api.CreateParagraph();
-                        oParagraph.AddText(Asc.scope.p);
-                        oDocument.InsertContent([oParagraph]);
+                        Asc.scope.p.forEach((item) => {
+                            var oStyle = oDocument.GetStyle(item.type);
+                            let oParagraph = Api.CreateParagraph();
+                            oParagraph.SetStyle(oStyle);
+                            oParagraph.AddText(item.content);
+                            oDocument.InsertContent([oParagraph]);
+                        });
                     })
                 })
                 .catch(error => {

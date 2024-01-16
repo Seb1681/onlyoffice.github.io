@@ -78,15 +78,15 @@
 		if (msg) {
 			console.log('Overwrite Received: ');
 			if (msg) {
-				Asc.scope.msgContent = msg;
+				Asc.scope.p = parseMarkdown(msg.slice(1, -1));
 				Asc.plugin.callCommand(() => {
 					var oDocument = Api.GetDocument();
 					oDocument.RemoveAllElements();
-					const content = Asc.scope.msgContent;
-					var cleanedText = content.slice(1, -1).split('\\n');
-					cleanedText.forEach((text, index) => {
+					Asc.scope.p.forEach((item, index) => {
+						var oStyle = oDocument.GetStyle(item.type);
 						var oParagraph = Api.CreateParagraph();
-						oParagraph.AddText(text);
+						oParagraph.SetStyle(oStyle);
+						oParagraph.AddText(item.content);
 						oDocument.AddElement(index, oParagraph);
 					});
 				})

@@ -228,6 +228,7 @@
     // generate content in document
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
             let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
             typingIndicator.innerHTML = 'Generating...';
             typingIndicator.style.display = 'block'; // display the typing indicator
@@ -250,7 +251,10 @@
                 .catch(error => {
                     console.error(error);
                 })
-                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
+                .finally(() => {
+                    window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
+                    typingIndicator.style.display = 'none'; // hide the typing indicator
+                });
             });
     });
 

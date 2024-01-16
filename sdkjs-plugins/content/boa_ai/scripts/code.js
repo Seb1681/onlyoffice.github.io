@@ -197,6 +197,7 @@
     });
 
     const parseMarkdown = (flowiseResponse) => {
+        console.log('parsing markdown');
         const markdownContent = flowiseResponse;
         const elements = [];
 
@@ -236,6 +237,7 @@
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = result;
+                    console.log('before parsing markdown');
                     parseMarkdown(result).forEach(element => {
                         console.log(element);
                     });

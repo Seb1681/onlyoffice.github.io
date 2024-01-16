@@ -235,7 +235,7 @@
         // }
         // Default to paragraph if no other type matches
         else {
-            return { type: 'paragraph', content: line };
+            return { type: 'Normal', content: line };
         }
     });
 
@@ -257,11 +257,10 @@
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
-                            console.log(item)
                             var oStyle = oDocument.GetStyle(item.type);
                             let oParagraph = Api.CreateParagraph();
                             oParagraph.SetStyle(oStyle);
-                            oParagraph.AddText(Asc.scope.p);
+                            oParagraph.AddText(item.content);
                             oDocument.InsertContent([oParagraph]);
                         });
                     })

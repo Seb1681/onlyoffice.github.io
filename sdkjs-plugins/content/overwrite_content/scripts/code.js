@@ -50,28 +50,49 @@
 		this.executeCommand("close", "");
     };
 	
-	// window.Asc.plugin.event_onDocumentContentReady = function()
-	// {
-		const overwriteContent = (msg) => {
+	const parseMarkdown = (markdownString) => {
+        console.log('parsing markdown');
+        const lines = markdownString.split('\n');
+        console.log(lines);
+        const categorized = lines.map(line => {
+			// Headings
+			if (line.startsWith('# ')) {
+				return { type: 'Heading 1', content: line.substring(2) };
+			} else if (line.startsWith('## ')) {
+				return { type: 'Heading 2', content: line.substring(3) };
+			} else if (line.startsWith('### ')) {
+				return { type: 'Heading 3', content: line.substring(4) };
+			} else if (line.startsWith('#### ')) {
+				return { type: 'Heading 4', content: line.substring(5) };
+			} else if (line.startsWith('##### ')) {
+				return { type: 'Heading 5', content: line.substring(6) };
+			} 
+			else {
+				return { type: 'Normal', content: line };
+			}
+    	});
+    	return categorized;
+    }
+	
+	const overwriteContent = (msg) => {
+		if (msg) {
+			console.log('Overwrite Received: ');
 			if (msg) {
-				console.log('Overwrite Received: ');
-				if (msg) {
-					Asc.scope.msgContent = msg;
-					Asc.plugin.callCommand(() => {
-						var oDocument = Api.GetDocument();
-						oDocument.RemoveAllElements();
-						const content = Asc.scope.msgContent;
-						var cleanedText = content.slice(1, -1).split('\\n');
-						cleanedText.forEach((text, index) => {
-							var oParagraph = Api.CreateParagraph();
-							oParagraph.AddText(text);
-							oDocument.AddElement(index, oParagraph);
-						});
-					})
-				}
+				Asc.scope.msgContent = msg;
+				Asc.plugin.callCommand(() => {
+					var oDocument = Api.GetDocument();
+					oDocument.RemoveAllElements();
+					const content = Asc.scope.msgContent;
+					var cleanedText = content.slice(1, -1).split('\\n');
+					cleanedText.forEach((text, index) => {
+						var oParagraph = Api.CreateParagraph();
+						oParagraph.AddText(text);
+						oDocument.AddElement(index, oParagraph);
+					});
+				})
 			}
 		}
-	// };
+	}
 
 	const start = async (connection) => {
 		try {

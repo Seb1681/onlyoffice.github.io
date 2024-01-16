@@ -251,9 +251,7 @@
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
-                    // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = parseMarkdown(result);
-                    console.log(Asc.scope.p);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
@@ -283,7 +281,7 @@
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
-                    Asc.scope.p = result;
+                    Asc.scope.p = parseMarkdown(result);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {

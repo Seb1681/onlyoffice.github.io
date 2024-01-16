@@ -223,6 +223,7 @@
 
         marked.use({ renderer });
         // marked(markdownContent);
+        console.log(elements);
         return elements;
     }
 

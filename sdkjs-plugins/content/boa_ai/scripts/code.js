@@ -288,37 +288,6 @@
         });
     });
 
-    // generate content in document
-    window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
-            let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
-            typingIndicator.innerHTML = 'Generating...';
-            typingIndicator.style.display = 'block'; // display the typing indicator
-            sseRequest(prompt)
-                .then(result => {
-                    // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
-                    Asc.scope.p = result;
-                    Asc.scope.parseMarkdown = parseMarkdown;
-                    Asc.plugin.callCommand(function () {
-                        let oDocument = Api.GetDocument();
-                        // var oHeading6Style = oDocument.GetStyle("Heading 6");
-                        let oParagraph = Api.CreateParagraph();
-                        // oParagraph.SetStyle(oHeading6Style);
-                        oParagraph.AddText(Asc.scope.p);
-                        oDocument.InsertContent([oParagraph]);
-                        console.log('parseMarkdown');
-                        Asc.scope.parseMarkdown(Asc.scope.p).forEach(element => {
-                            console.log(element);
-                        });
-                    })
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
-            });
-    });
-
     const parseMarkdown = (flowiseResponse) => {
         const markdownContent = flowiseResponse;
         const elements = [];
@@ -347,6 +316,39 @@
         marked(markdownContent);
         return elements;
     }
+
+    // generate content in document
+    window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
+        window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
+            typingIndicator.innerHTML = 'Generating...';
+            typingIndicator.style.display = 'block'; // display the typing indicator
+            sseRequest(prompt)
+                .then(result => {
+                    // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
+                    Asc.scope.p = result;
+                    console.log('330')
+                    Asc.scope.parseMarkdown = parseMarkdown;
+                    console.log('332')
+                    Asc.plugin.callCommand(function () {
+                        let oDocument = Api.GetDocument();
+                        // var oHeading6Style = oDocument.GetStyle("Heading 6");
+                        let oParagraph = Api.CreateParagraph();
+                        // oParagraph.SetStyle(oHeading6Style);
+                        oParagraph.AddText(Asc.scope.p);
+                        oDocument.InsertContent([oParagraph]);
+                        console.log('parseMarkdown');
+                        Asc.scope.parseMarkdown(Asc.scope.p).forEach(element => {
+                            console.log(element);
+                        });
+                    })
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
+            });
+    });
 
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {

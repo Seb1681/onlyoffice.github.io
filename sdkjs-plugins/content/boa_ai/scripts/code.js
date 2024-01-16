@@ -196,35 +196,45 @@
         });
     });
 
-    const parseMarkdown = (flowiseResponse) => {
+    const parseMarkdown = (markdownString) => {
         console.log('parsing markdown');
-        const markdownContent = flowiseResponse;
-        const elements = [];
+        const lines = markdownString.split('\n');
+        const categorized = lines.map(line => {
+        // Headings
+        if (line.startsWith('# ')) {
+            return { type: 'heading1', content: line.substring(2) };
+        } else if (line.startsWith('## ')) {
+            return { type: 'heading2', content: line.substring(3) };
+        } else if (line.startsWith('### ')) {
+            return { type: 'heading3', content: line.substring(4) };
+        } 
+        // Blockquotes
+        else if (line.startsWith('> ')) {
+            return { type: 'blockquote', content: line.substring(2) };
+        }
+        // Ordered List
+        else if (/^\d+\.\s/.test(line)) {
+            return { type: 'ordered_list_item', content: line.substring(line.indexOf(' ') + 1) };
+        }
+        // Unordered List
+        else if (/^[-*+]\s/.test(line)) {
+            return { type: 'unordered_list_item', content: line.substring(2) };
+        }
+        // Code Blocks
+        else if (line.startsWith('```')) {
+            return { type: 'code_block', content: line.substring(3) };
+        }
+        // Horizontal Rules
+        else if (/^---$|^___$|^\*\*\*$/.test(line)) {
+            return { type: 'horizontal_rule', content: '' };
+        }
+        // Default to paragraph if no other type matches
+        else {
+            return { type: 'paragraph', content: line };
+        }
+    });
 
-        const renderer = {
-            heading(text, level) {
-                elements.push({ type: `heading${level}`, content: text });
-                return '';
-            },
-            paragraph(text) {
-                elements.push({ type: 'paragraph', content: text });
-                return '';
-            },
-            listitem(text) {
-                elements.push({ type: 'list_item', content: text });
-                return '';
-            },
-            blockquote(text) {
-                elements.push({ type: 'blockquote', content: text });
-                return '';
-            },
-            // Add more overrides for other types as needed
-        };
-
-        marked.use({ renderer });
-        // marked(markdownContent);
-        console.log(elements);
-        return elements;
+    return categorized;
     }
 
     // generate content in document

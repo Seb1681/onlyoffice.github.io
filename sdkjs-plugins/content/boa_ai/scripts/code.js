@@ -222,7 +222,7 @@
         };
 
         marked.use({ renderer });
-        marked(markdownContent);
+        // marked(markdownContent);
         return elements;
     }
 

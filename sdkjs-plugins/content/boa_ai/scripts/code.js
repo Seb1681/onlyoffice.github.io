@@ -1,40 +1,5 @@
 // an Chat plugin of AI
 (function (window, undefined) {
-
-    // define prompts for multiple languages
-    const prompts = {
-        en: {
-            'summarize': 'summarize the text in up to 10 concise bullet points in English',
-            'explain': 'explain the key concepts by bullet points and then summarize in simple words',
-            'generate': 'using English to ',
-        },
-        de: {
-            'summarize': 'fassen Sie den Text in bis zu 10 prägnanten Stichpunkten auf Deutsch zusammen',
-            'explain': 'erklären Sie die Schlüsselkonzepte in Stichpunkten und fassen Sie sie dann in einfachen Worten zusammen',
-            'generate': 'Deutschland nutzen, um ',
-        },
-        es: {
-            'summary': 'resuma el texto en hasta 10 puntos concisos en español',
-            'explain': 'explique los conceptos clave en puntos y luego resuma en palabras sencillas',
-            'generate': 'usando español para ',
-        },
-        ru: {
-            'summarize': 'суммируйте текст вплоть до 10 кратких пунктов на русском языке',
-            'explain': 'объясните ключевые концепции пунктами, а затем суммируйте простыми словами',
-            'generate': 'используя русский язык для ',
-        },
-        fr: {
-            'summarize': 'résumer le texte en 10 points concis en français',
-            'explain': 'expliquer les concepts clés par des points, puis résumer en termes simples',
-            'generate': 'utiliser le français pour ',
-        },
-        zh: {
-            'summarize': '用要点来总结文本',
-            'explain': '用要点来解释涉及的关键概念，然后用简单的话总结',
-            'generate': '用中文来',
-        }
-    }
-
     let messageHistory = null; // a reference to the message history DOM element
     let conversationHistory = null; // a list of all the messages in the conversation
     let messageInput = null;
@@ -228,63 +193,6 @@
                 console.log("error", error);
                 });
             typingIndicator.style.display = 'none'; // hide the typing indicator
-        });
-    });
-
-    const translateHelper = function (text, targetLanguage) {
-        conversationHistory.push({ role: 'user', content: `翻译为${targetLanguage}: ` + text });
-        sseRequest(conversationHistory)
-            .then(result => {
-                console.log("success");
-                let currentDiv = null;
-                let currentMessage = null;
-                displaySSEMessage(result, currentDiv, currentMessage);
-            })
-            .catch(error => {
-                console.log("error", error);
-            });
-        typingIndicator.style.display = 'none'; // hide the typing indicator
-    }
-
-    // translate into Chinese
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_zh', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "中文");
-        });
-    });
-
-    // translate into English
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_en', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "英文");
-        });
-    });
-
-    // translate to French
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_fr', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "法文");
-        });
-    });
-
-    // translate to German
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_de', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "德文");
-        });
-    });
-
-    // translate to Russian
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_ru', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "俄文");
-        });
-    });
-
-    // translate to spanish
-    window.Asc.plugin.attachContextMenuClickEvent('translate_to_es', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            translateHelper(text, "西班牙文");
         });
     });
 

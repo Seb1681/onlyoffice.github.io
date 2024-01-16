@@ -253,9 +253,11 @@
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
                     Asc.scope.p = parseMarkdown(result);
+                    console.log(Asc.scope.p);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
+                            console.log(item)
                             var oStyle = oDocument.GetStyle(item.type);
                             let oParagraph = Api.CreateParagraph();
                             oParagraph.SetStyle(oStyle);

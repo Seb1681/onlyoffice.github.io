@@ -203,32 +203,36 @@
         const categorized = lines.map(line => {
         // Headings
         if (line.startsWith('# ')) {
-            return { type: 'heading1', content: line.substring(2) };
+            return { type: 'Heading 1', content: line.substring(2) };
         } else if (line.startsWith('## ')) {
-            return { type: 'heading2', content: line.substring(3) };
+            return { type: 'Heading 2', content: line.substring(3) };
         } else if (line.startsWith('### ')) {
-            return { type: 'heading3', content: line.substring(4) };
+            return { type: 'Heading 3', content: line.substring(4) };
+        } else if (line.startsWith('#### ')) {
+            return { type: 'Heading 4', content: line.substring(5) };
+        } else if (line.startsWith('##### ')) {
+            return { type: 'Heading 5', content: line.substring(6) };
         } 
         // Blockquotes
-        else if (line.startsWith('> ')) {
-            return { type: 'blockquote', content: line.substring(2) };
-        }
-        // Ordered List
-        else if (/^\d+\.\s/.test(line)) {
-            return { type: 'ordered_list_item', content: line.substring(line.indexOf(' ') + 1) };
-        }
-        // Unordered List
-        else if (/^[-*+]\s/.test(line)) {
-            return { type: 'unordered_list_item', content: line.substring(2) };
-        }
-        // Code Blocks
-        else if (line.startsWith('```')) {
-            return { type: 'code_block', content: line.substring(3) };
-        }
-        // Horizontal Rules
-        else if (/^---$|^___$|^\*\*\*$/.test(line)) {
-            return { type: 'horizontal_rule', content: '' };
-        }
+        // else if (line.startsWith('> ')) {
+        //     return { type: 'blockquote', content: line.substring(2) };
+        // }
+        // // Ordered List
+        // else if (/^\d+\.\s/.test(line)) {
+        //     return { type: 'ordered_list_item', content: line.substring(line.indexOf(' ') + 1) };
+        // }
+        // // Unordered List
+        // else if (/^[-*+]\s/.test(line)) {
+        //     return { type: 'unordered_list_item', content: line.substring(2) };
+        // }
+        // // Code Blocks
+        // else if (line.startsWith('```')) {
+        //     return { type: 'code_block', content: line.substring(3) };
+        // }
+        // // Horizontal Rules
+        // else if (/^---$|^___$|^\*\*\*$/.test(line)) {
+        //     return { type: 'horizontal_rule', content: '' };
+        // }
         // Default to paragraph if no other type matches
         else {
             return { type: 'paragraph', content: line };
@@ -248,17 +252,16 @@
             sseRequest(prompt)
                 .then(result => {
                     // window.Asc.plugin.executeMethod ("PasteHtml", [result]);
-                    Asc.scope.p = result;
-                    parseMarkdown(result).forEach(element => {
-                        console.log(element);
-                    });
+                    Asc.scope.p = parseMarkdown(result);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
-                        // var oHeading6Style = oDocument.GetStyle("Heading 6");
-                        let oParagraph = Api.CreateParagraph();
-                        // oParagraph.SetStyle(oHeading6Style);
-                        oParagraph.AddText(Asc.scope.p);
-                        oDocument.InsertContent([oParagraph]);
+                        Asc.scope.p.forEach((item) => {
+                            var oStyle = oDocument.GetStyle(item.type);
+                            let oParagraph = Api.CreateParagraph();
+                            oParagraph.SetStyle(oStyle);
+                            oParagraph.AddText(Asc.scope.p);
+                            oDocument.InsertContent([oParagraph]);
+                        });
                     })
                 })
                 .catch(error => {

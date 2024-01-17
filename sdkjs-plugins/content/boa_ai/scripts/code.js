@@ -276,6 +276,7 @@
     // rephrase content in document
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
+            window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
             let prompt = (`Please rephrase this sentence: "${text}". Please reply only the content in markdown format for this prompt.`);
             typingIndicator.innerHTML = 'Rephrasing...';
             typingIndicator.style.display = 'block'; // display the typing indicator
@@ -296,7 +297,10 @@
                 .catch(error => {
                     console.error(error);
                 })
-                .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
+                .finally(() => {
+                    window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
+                    typingIndicator.style.display = 'none'; // hide the typing indicator
+                });
             });
     });
     // Make sure the DOM is fully loaded before querying the DOM elements

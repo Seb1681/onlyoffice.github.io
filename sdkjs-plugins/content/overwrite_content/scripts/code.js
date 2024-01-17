@@ -51,7 +51,7 @@
     };
 	
 	const parseMarkdown = (markdownString) => {
-        const lines = markdownString.split('\n');
+        const lines = markdownString.split('\\n');
         const categorized = lines.map(line => {
 			// Headings
 			if (line.startsWith('# ')) {

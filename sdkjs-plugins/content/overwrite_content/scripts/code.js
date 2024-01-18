@@ -76,7 +76,7 @@
 		if (msg) {
 			console.log('Overwrite Received: ');
 			if (msg) {
-				Asc.scope.p = parseMarkdown(msg.slice(1, -1));
+				Asc.scope.p = parseMarkdown(msg);
 				Asc.plugin.callCommand(() => {
 					var oDocument = Api.GetDocument();
 					oDocument.RemoveAllElements();

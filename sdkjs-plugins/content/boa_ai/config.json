@@ -10,7 +10,7 @@
             "url": "index.html",
             "icons": [
                 {
-                    "100%": { "normal": "resources/light/favicon.ico"}
+                    "100%": { "normal": "resources/favicon.ico"}
                 }
             ],
             "store": {
@@ -20,7 +20,7 @@
                 },
                 "icons": [
                     {
-                        "100%": { "normal": "resources/light/favicon.ico"}
+                        "100%": { "normal": "resources/favicon.ico"}
                     }
                 ],
                 "categories": [
@@ -30,12 +30,11 @@
             },
             "isViewer": true,
             "EditorsSupport": ["word"],
-            "isVisual": true,
-            "isModal": true,
+            "isVisual": false,
+            "isModal": false,
             "isInsideMode": true,
             "initData": "",
             "initDataType": "none",
-            "isUpdateOleOnResize": true,
             "buttons": [],
             "events": [
                 "onContextMenuShow",

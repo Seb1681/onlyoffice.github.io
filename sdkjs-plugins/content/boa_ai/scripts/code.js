@@ -113,10 +113,10 @@
                         //         }
                         //     ]
                         // },
-                        {
-                            id: 'clear_history',
-                            text: generateText('Clear chat history'),
-                        }
+                        // {
+                        //     id: 'clear_history',
+                        //     text: generateText('Clear chat history'),
+                        // }
                     ]
                 }
             ]

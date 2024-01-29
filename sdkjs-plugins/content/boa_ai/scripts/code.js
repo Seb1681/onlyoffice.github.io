@@ -373,7 +373,7 @@
                                 }
                             },
                             "memoryKey": {"bufferMemory_0": rsdId},
-                            // "inputKey": {"bufferMemory_0": rsdId},
+                            "inputKey": {"bufferMemory_0": rsdId},
                         }
                     })
                 }
@@ -390,9 +390,10 @@
             //         "Question": question
             //     })
             // })
-            .then(response => response.json().text)
-            // .then(response => response.data)
-            // .then(result => console.log(result, 'result'))
+            .then(response => response.json())
+            .then(result => console.log(result, 'result'))
+            .then (response => response.text)
+            .then(result => console.log(result, 'result2'))
             .then(result => resolve(result))
             .catch(error => reject(error));
         });

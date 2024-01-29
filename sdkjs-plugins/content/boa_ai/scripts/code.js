@@ -115,7 +115,7 @@
     window.Asc.plugin.attachContextMenuClickEvent('generate', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
-            let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
+            let prompt = (`Please generate the content for: "${text.trim()}". Please reply in markdown format.`);
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = parseMarkdown(result.text);
@@ -143,7 +143,7 @@
     window.Asc.plugin.attachContextMenuClickEvent('rephrase', function () {
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
-            let prompt = (`Please rephrase this sentence: "${text}". Please reply only the content in markdown format for this prompt.`);
+            let prompt = (`Please rephrase this sentence: "${text.trim()}". Please reply in markdown format.`);
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = parseMarkdown(result.text);

@@ -38,22 +38,7 @@
         window.parent.parent.postMessage(payload, '*');
 
         lang = window.Asc.plugin.info.lang.substring(0, 2);
-        messageHistory = document.querySelector('.message-history');
-        conversationHistory = [];
-        typingIndicator = document.querySelector('.typing-indicator');
-        const greet = "Hi I'm RSD pilot, your dedicated assistant for crafting precise and effective Requirement Specification Documents. How can I assist you today?";
-        displayMessage(greet, 'ai-message');
     };
-
-    // const start = async (connection) => {
-	// 	try {
-	// 		await connection.start();
-	// 		console.log("SignalR Connected from RSD Pilot");
-	// 	} catch (err) {
-	// 		console.error(err);
-	// 		// setTimeout(() => start(), 5000);
-	// 	}
-	// };
 
     window.Asc.plugin.button = function () {
         this.executeCommand("close", "");
@@ -75,48 +60,6 @@
                             id: 'rephrase',
                             text: generateText('Rephrase'),
                         },
-                        // {
-                        //     id: 'summarize',
-                        //     text: generateText('summarize'),
-                        // },
-                        // {
-                        //     id: 'explain',
-                        //     text: generateText('explain'),
-                        // },
-                        // {
-                        //     id: 'translate',
-                        //     text: generateText('translate'),
-                        //     items: [
-                        //         {
-                        //             id: 'translate_to_en',
-                        //             text: generateText('translate to English'),
-                        //         },
-                        //         {
-                        //             id: 'translate_to_zh',
-                        //             text: generateText('translate to Chinese'),
-                        //         },
-                        //         {
-                        //             id: 'translate_to_fr',
-                        //             text: generateText('translate to French'),
-                        //         },
-                        //         {
-                        //             id: 'translate_to_de',
-                        //             text: generateText('translate to German'),
-                        //         },
-                        //         {
-                        //             id: 'translate_to_ru',
-                        //             text: generateText('translate to Russian'),
-                        //         },
-                        //         {
-                        //             id: 'translate_to_es',
-                        //             text: generateText('translate to Spanish'),
-                        //         }
-                        //     ]
-                        // },
-                        // {
-                        //     id: 'clear_history',
-                        //     text: generateText('Clear chat history'),
-                        // }
                     ]
                 }
             ]
@@ -131,41 +74,8 @@
             this.executeMethod('AddContextMenuItem', [getContextMenuItems()]);
     });
 
-    window.Asc.plugin.attachContextMenuClickEvent('clear_history', function () {
-        clearHistory();
-    });
-
-    const displayMessage = function (message, messageType) {
-        message = message.replace(/^"|"$/g, ''); // remove surrounding quotes
-        message = message.replace(/\\n/g, '\n'); // replace \n with newline characters
-
-        // create a new message element
-        const messageElement = document.createElement('div');
-        messageElement.classList.add(messageType); // Add div class
-
-        // split the message into lines and create a text node for each line
-        const lines = message.split('\n');
-        for (const line of lines) {
-            const textNode = document.createTextNode(line);
-            messageElement.appendChild(textNode);
-            messageElement.appendChild(document.createElement('br'));
-        }
-
-        const containerElement = document.createElement('div');
-        containerElement.classList.add(messageType + '-container'); // Add div class
-        containerElement.appendChild(messageElement);
-        // add the message element to the message history
-        messageHistory.appendChild(containerElement);
-
-        //  scroll to the bottom of the message history
-        messageHistory.scrollTop = messageHistory.scrollHeight;
-    };
-
-
     const parseMarkdown = (markdownString) => {
-        console.log('parsing markdown');
         const lines = markdownString.split('\n');
-        console.log(lines);
         const categorized = lines.map(line => {
         // Headings
         if (line.startsWith('# ')) {
@@ -269,55 +179,6 @@
                 });
             });
     });
-    // Make sure the DOM is fully loaded before querying the DOM elements
-    document.addEventListener("DOMContentLoaded", function () {
-        // get references to the DOM elements
-        messageInput = document.querySelector('.message-input');
-        const sendButton = document.querySelector('.send-button');
-        typingIndicator = document.querySelector('.typing-indicator');
-
-        // send a message when the user clicks the send button
-        function sendMessage() {
-            const message = messageInput.value;
-            if (message.trim() !== '') {
-                displayMessage(message, 'user-message');
-                conversationHistory.push({ role: 'user', content: message });
-                messageInput.value = '';
-                typingIndicator.innerHTML = 'Thinking...';
-                typingIndicator.style.display = 'block'; // display the typing indicator
-                sseRequest(message)
-                    .then(result => {
-                        console.log("success");
-                        displayMessage(result.text, 'ai-message');
-                    })
-                    .catch(error => {
-                        console.log("error", error);
-                    })
-                    .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
-            }
-        }
-
-        sendButton.addEventListener('click', sendMessage);
-
-        messageInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();  // prevent the default behavior of the Enter key
-                if (event.shiftKey) {
-                    // if the user pressed Shift+Enter, insert a newline character
-                    messageInput.value += '\n';
-                } else {
-                    // if the user only pressed Enter, send the message
-                    sendMessage();
-                }
-            }
-        });
-    });
-
-    function clearHistory() {
-        messageHistory.innerHTML = '';
-        conversationHistory = [];
-        messageInput.value = '';
-    }
 
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
@@ -360,38 +221,6 @@
             .catch(error => reject(error));
         });
 
-    }
-
-    function displaySSEMessage(result, currentDiv, currentMessage) {
-        // console.log("stream result: ", result);
-        if (result) {
-            // console.log("result.value of stream", result.value);
-            conversationHistory.push({ role: 'assistant', content: currentMessage });
-            return;
-        }
-        if (currentDiv === null) {
-            currentDiv = document.createElement('div');
-            currentDiv.classList.add('ai-message');
-            messageHistory.appendChild(currentDiv);
-        }
-        if (currentMessage === null) {
-            currentMessage = '';
-        }
-        const lines = result.value.split('\n');
-        lines.forEach(line => {
-            if (line.includes('data')) {
-                const fragment = line.split(':')[1];
-                currentMessage += fragment;
-                if (fragment === '') {
-                    currentDiv.appendChild(document.createElement('br'));
-                } else {
-                    currentDiv.appendChild(document.createTextNode(fragment));
-                }
-            }
-        });
-
-        // recursively call processResult() to continue reading data from the stream
-        displaySSEMessage(result, currentDiv, currentMessage);
     }
 
     function generateText(text) {

@@ -161,40 +161,6 @@
         messageHistory.scrollTop = messageHistory.scrollHeight;
     };
 
-    //summarize
-    window.Asc.plugin.attachContextMenuClickEvent('summarize', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            conversationHistory.push({ role: 'user', content: prompts[lang]['summarize'] + text });
-            sseRequest(conversationHistory)
-                .then(result => {
-                    console.log("success");
-                    let currentDiv = null;
-                    let currentMessage = null;
-                    displaySSEMessage(result, currentDiv, currentMessage);
-                })
-                .catch(error => {
-                console.log("error", error);
-                });
-        });
-    });
-
-    // explain 
-    window.Asc.plugin.attachContextMenuClickEvent('explain', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            conversationHistory.push({ role: 'user', content: prompts[lang]['explain'] + text });
-            sseRequest(conversationHistory)
-                .then(result => {
-                    console.log("success");
-                    let currentDiv = null;
-                    let currentMessage = null;
-                    displaySSEMessage(result, currentDiv, currentMessage);
-                })
-                .catch(error => {
-                console.log("error", error);
-                });
-            typingIndicator.style.display = 'none'; // hide the typing indicator
-        });
-    });
 
     const parseMarkdown = (markdownString) => {
         console.log('parsing markdown');
@@ -251,7 +217,7 @@
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
-                    Asc.scope.p = parseMarkdown(result);
+                    Asc.scope.p = parseMarkdown(result.text);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
@@ -282,7 +248,7 @@
             typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
-                    Asc.scope.p = parseMarkdown(result);
+                    Asc.scope.p = parseMarkdown(result.text);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
@@ -322,7 +288,7 @@
                 sseRequest(message)
                     .then(result => {
                         console.log("success");
-                        displayMessage(result, 'ai-message');
+                        displayMessage(result.text, 'ai-message');
                     })
                     .catch(error => {
                         console.log("error", error);
@@ -356,39 +322,39 @@
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
 
-            // fetch(
-            //     "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json"
-            //         },
-            //         body: JSON.stringify({
-            //             "question": question,
-            //             "overrideConfig": {
-            //                 "supabaseMetadataFilter": {
-            //                     "supabaseExistingIndex_0": {
-            //                         "rsdId": rsdId,
-            //                         "docType": "originalMaterial"
-            //                     }
-            //                 },
-            //                 "memoryKey": {"bufferMemory_0": rsdId},
-            //                 "inputKey": {"bufferMemory_0": rsdId},
-            //             }
-            //         })
-            //     }
-            // )
-            fetch("https://boa-admin-vnext.dev.azaas.online/api/ai/rsd/ai-prompt", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                },
-                body: JSON.stringify({
-                    "RsdId": rsdId,
-                    "Question": question
-                })
-            })
+            fetch(
+                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "question": question,
+                        "overrideConfig": {
+                            "supabaseMetadataFilter": {
+                                "supabaseExistingIndex_0": {
+                                    "rsdId": rsdId,
+                                    "docType": "originalMaterial"
+                                }
+                            },
+                            "memoryKey": {"bufferMemory_0": rsdId},
+                            "inputKey": {"bufferMemory_0": rsdId},
+                        }
+                    })
+                }
+            )
+            // fetch("https://boa-admin-vnext.dev.azaas.online/api/ai/rsd/ai-prompt", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": "Bearer " + token,
+            //     },
+            //     body: JSON.stringify({
+            //         "RsdId": rsdId,
+            //         "Question": question
+            //     })
+            // })
             .then(response => response.json())
             .then(result => resolve(result))
             .catch(error => reject(error));

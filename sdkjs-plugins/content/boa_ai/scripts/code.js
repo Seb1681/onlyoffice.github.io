@@ -378,7 +378,7 @@
             //         })
             //     }
             // )
-            fetch("https://admin.dev.boa.azaas.online/api/ai/rsd/ai-prompt", {
+            fetch("https://boa-admin-vnext.dev.azaas.online/api/ai/rsd/ai-prompt", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -4,7 +4,6 @@
     let conversationHistory = null; // a list of all the messages in the conversation
     let messageInput = null;
     let typingIndicator = null;
-    let lang = '';
     let token = '';
     let rsdId = '';
 
@@ -36,8 +35,6 @@
         await connection.start();
         console.log("SignalR Connected from RSD Pilot");
         window.parent.parent.postMessage(payload, '*');
-
-        lang = window.Asc.plugin.info.lang.substring(0, 2);
     };
 
     window.Asc.plugin.button = function () {
@@ -194,39 +191,39 @@
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
 
-            // fetch(
-            //     "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json"
-            //         },
-            //         body: JSON.stringify({
-            //             "question": question,
-            //             "overrideConfig": {
-            //                 "supabaseMetadataFilter": {
-            //                     "supabaseExistingIndex_0": {
-            //                         "rsdId": rsdId,
-            //                         "docType": "originalMaterial"
-            //                     }
-            //                 },
-            //                 "memoryKey": {"bufferMemory_0": rsdId},
-            //                 "inputKey": {"bufferMemory_0": rsdId},
-            //             }
-            //         })
-            //     }
-            // )
-            fetch("https://boa-admin-vnext.dev.azaas.online/api/ai/rsd/ai-prompt", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                },
-                body: JSON.stringify({
-                    "RsdId": rsdId,
-                    "Question": question
-                })
-            })
+            fetch(
+                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "question": question,
+                        "overrideConfig": {
+                            "supabaseMetadataFilter": {
+                                "supabaseExistingIndex_0": {
+                                    "rsdId": rsdId,
+                                    "docType": "originalMaterial"
+                                }
+                            },
+                            "memoryKey": {"bufferMemory_0": rsdId},
+                            "inputKey": {"bufferMemory_0": rsdId},
+                        }
+                    })
+                }
+            )
+            // fetch("https://boa-admin-vnext.dev.azaas.online/api/ai/rsd/ai-prompt", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": "Bearer " + token,
+            //     },
+            //     body: JSON.stringify({
+            //         "RsdId": rsdId,
+            //         "Question": question
+            //     })
+            // })
             .then(response => response.json())
             .then(result => resolve(result))
             .catch(error => reject(error));

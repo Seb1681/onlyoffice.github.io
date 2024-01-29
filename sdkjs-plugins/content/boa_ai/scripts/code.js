@@ -78,67 +78,6 @@
         clearHistory();
     });
 
-    const displayMessage = function (message, messageType) {
-        message = message.replace(/^"|"$/g, ''); // remove surrounding quotes
-        message = message.replace(/\\n/g, '\n'); // replace \n with newline characters
-
-        // create a new message element
-        const messageElement = document.createElement('div');
-        messageElement.classList.add(messageType); // Add div class
-
-        // split the message into lines and create a text node for each line
-        const lines = message.split('\n');
-        for (const line of lines) {
-            const textNode = document.createTextNode(line);
-            messageElement.appendChild(textNode);
-            messageElement.appendChild(document.createElement('br'));
-        }
-
-        const containerElement = document.createElement('div');
-        containerElement.classList.add(messageType + '-container'); // Add div class
-        containerElement.appendChild(messageElement);
-        // add the message element to the message history
-        messageHistory.appendChild(containerElement);
-
-        //  scroll to the bottom of the message history
-        messageHistory.scrollTop = messageHistory.scrollHeight;
-    };
-
-    //summarize
-    window.Asc.plugin.attachContextMenuClickEvent('summarize', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            conversationHistory.push({ role: 'user', content: prompts[lang]['summarize'] + text });
-            sseRequest(conversationHistory)
-                .then(result => {
-                    console.log("success");
-                    let currentDiv = null;
-                    let currentMessage = null;
-                    displaySSEMessage(result, currentDiv, currentMessage);
-                })
-                .catch(error => {
-                console.log("error", error);
-                });
-        });
-    });
-
-    // explain 
-    window.Asc.plugin.attachContextMenuClickEvent('explain', function () {
-        window.Asc.plugin.executeMethod('GetSelectedText', null, function (text) {
-            conversationHistory.push({ role: 'user', content: prompts[lang]['explain'] + text });
-            sseRequest(conversationHistory)
-                .then(result => {
-                    console.log("success");
-                    let currentDiv = null;
-                    let currentMessage = null;
-                    displaySSEMessage(result, currentDiv, currentMessage);
-                })
-                .catch(error => {
-                console.log("error", error);
-                });
-            typingIndicator.style.display = 'none'; // hide the typing indicator
-        });
-    });
-
     const parseMarkdown = (markdownString) => {
         const lines = markdownString.split('\n');
         const categorized = lines.map(line => {
@@ -244,49 +183,7 @@
                 });
             });
     });
-    // Make sure the DOM is fully loaded before querying the DOM elements
-    document.addEventListener("DOMContentLoaded", function () {
-        // get references to the DOM elements
-        messageInput = document.querySelector('.message-input');
-        const sendButton = document.querySelector('.send-button');
-        typingIndicator = document.querySelector('.typing-indicator');
 
-        // send a message when the user clicks the send button
-        function sendMessage() {
-            const message = messageInput.value;
-            if (message.trim() !== '') {
-                displayMessage(message, 'user-message');
-                conversationHistory.push({ role: 'user', content: message });
-                messageInput.value = '';
-                typingIndicator.innerHTML = 'Thinking...';
-                typingIndicator.style.display = 'block'; // display the typing indicator
-                sseRequest(message)
-                    .then(result => {
-                        console.log("success");
-                        displayMessage(result, 'ai-message');
-                    })
-                    .catch(error => {
-                        console.log("error", error);
-                    })
-                    .finally(() => typingIndicator.style.display = 'none'); // hide the typing indicator
-            }
-        }
-
-        sendButton.addEventListener('click', sendMessage);
-
-        messageInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();  // prevent the default behavior of the Enter key
-                if (event.shiftKey) {
-                    // if the user pressed Shift+Enter, insert a newline character
-                    messageInput.value += '\n';
-                } else {
-                    // if the user only pressed Enter, send the message
-                    sendMessage();
-                }
-            }
-        });
-    });
 
     function clearHistory() {
         messageHistory.innerHTML = '';

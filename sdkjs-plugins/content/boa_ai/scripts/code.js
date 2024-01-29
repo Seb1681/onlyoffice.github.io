@@ -391,10 +391,7 @@
             //     })
             // })
             .then(response => response.json())
-            .then(result => console.log(result, 'result'))
-            .then (response => response.text)
-            .then(result => console.log(result, 'result2'))
-            .then(result => resolve(result))
+            .then(result => resolve(result.text))
             .catch(error => reject(error));
         });
 

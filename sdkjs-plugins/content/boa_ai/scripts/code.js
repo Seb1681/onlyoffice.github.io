@@ -1,9 +1,5 @@
 // an Chat plugin of AI
 (function (window, undefined) {
-    let messageHistory = null; // a reference to the message history DOM element
-    let conversationHistory = null; // a list of all the messages in the conversation
-    let messageInput = null;
-    let typingIndicator = null;
     let token = '';
     let rsdId = '';
 
@@ -71,10 +67,6 @@
             this.executeMethod('AddContextMenuItem', [getContextMenuItems()]);
     });
 
-    window.Asc.plugin.attachContextMenuClickEvent('clear_history', function () {
-        clearHistory();
-    });
-
     const parseMarkdown = (markdownString) => {
         const lines = markdownString.split('\n');
         const categorized = lines.map(line => {
@@ -124,8 +116,6 @@
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
             let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
-            typingIndicator.innerHTML = 'Generating...';
-            typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = parseMarkdown(result);
@@ -145,7 +135,6 @@
                 })
                 .finally(() => {
                     window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
-                    typingIndicator.style.display = 'none'; // hide the typing indicator
                 });
             });
     });
@@ -155,8 +144,6 @@
         window.Asc.plugin.executeMethod('GetSelectedText', null, (text) => {
             window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
             let prompt = (`Please rephrase this sentence: "${text}". Please reply only the content in markdown format for this prompt.`);
-            typingIndicator.innerHTML = 'Rephrasing...';
-            typingIndicator.style.display = 'block'; // display the typing indicator
             sseRequest(prompt)
                 .then(result => {
                     Asc.scope.p = parseMarkdown(result);
@@ -176,23 +163,15 @@
                 })
                 .finally(() => {
                     window.parent.parent.postMessage({"onlyOfficePlugin": "Loading"}, '*');
-                    typingIndicator.style.display = 'none'; // hide the typing indicator
                 });
             });
     });
-
-
-    function clearHistory() {
-        messageHistory.innerHTML = '';
-        conversationHistory = [];
-        messageInput.value = '';
-    }
 
     function sseRequest(question) {
         return new Promise((resolve, reject) => {
 
             fetch(
-                "https://ai.azaas.com/api/v1/prediction/97bd8c9a-5f24-4bb2-8484-a0d3a3b8f041",
+                "https://ai.azaas.com/api/v1/prediction/f240e13f-faf7-4cc1-8d57-7e6ff26580aa",
                 {
                     method: "POST",
                     headers: {

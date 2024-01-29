@@ -118,7 +118,7 @@
             let prompt = (`Please generate the content for: "${text}". Please reply only the content in markdown format for this prompt.`);
             sseRequest(prompt)
                 .then(result => {
-                    Asc.scope.p = parseMarkdown(result);
+                    Asc.scope.p = parseMarkdown(result.text);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {
@@ -146,7 +146,7 @@
             let prompt = (`Please rephrase this sentence: "${text}". Please reply only the content in markdown format for this prompt.`);
             sseRequest(prompt)
                 .then(result => {
-                    Asc.scope.p = parseMarkdown(result);
+                    Asc.scope.p = parseMarkdown(result.text);
                     Asc.plugin.callCommand(function () {
                         let oDocument = Api.GetDocument();
                         Asc.scope.p.forEach((item) => {

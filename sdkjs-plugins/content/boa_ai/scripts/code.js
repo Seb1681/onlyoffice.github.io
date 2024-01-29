@@ -390,7 +390,7 @@
             //         "Question": question
             //     })
             // })
-            .then(response => response.json())
+            .then(response => response.json().text)
             // .then(response => response.data)
             // .then(result => console.log(result, 'result'))
             .then(result => resolve(result))

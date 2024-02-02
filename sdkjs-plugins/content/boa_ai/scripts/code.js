@@ -186,8 +186,8 @@
                                     "docType": "originalMaterial"
                                 }
                             },
-                            "memoryKey": {"MongoDBAtlasChatMemory_0": rsdId},
-                            "sessionId": {"MongoDBAtlasChatMemory_0": rsdId},
+                            "memoryKey": rsdId,
+                            "sessionId": rsdId
                         }
                     })
                 }

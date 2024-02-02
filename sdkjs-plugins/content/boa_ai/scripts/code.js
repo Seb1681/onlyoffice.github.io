@@ -186,8 +186,8 @@
                                     "docType": "originalMaterial"
                                 }
                             },
-                            "memoryKey": {"bufferMemory_0": rsdId},
-                            "inputKey": {"bufferMemory_0": rsdId},
+                            "memoryKey": {"MongoDBAtlasChatMemory_0": rsdId},
+                            "sessionId": {"MongoDBAtlasChatMemory_0": rsdId},
                         }
                     })
                 }
